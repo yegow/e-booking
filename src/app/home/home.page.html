@@ -1,14 +1,23 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
+<ion-content color="dark">
   <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
+    <ion-text color="light" class="ion-text-center">
+      <h1>E-Booking</h1>
+      <ion-thumbnail>
+        <ion-icon name="home"></ion-icon>
+      </ion-thumbnail>
+    </ion-text>
+
+    <div class="ion-margin-vertical">
+      <ion-button expand="block" [routerLink]="['/properties']" color="success">
+        Explore
+      </ion-button>
+    </div>
+
+    <ion-button expand="block" [routerLink]="['/login']">
+      Login
+    </ion-button>
+    <ion-button expand="block" [routerLink]="['/signup']">
+      Signup
+    </ion-button>
   </div>
 </ion-content>
