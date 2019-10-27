@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        [text]=""
+        [icon]="arrowRoundBack">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="property">{{property.title}}</ion-title>
+    <ion-spinner *ngIf="!property" name="dots" slot="end"></ion-spinner>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding custom-skeleton" *ngIf="!property">
+    <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+    <ion-skeleton-text animated></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+  </div>
+  <div *ngIf="property">
+    <ion-card>
+      <ion-img src="assets/e-booking-placeholder.png"></ion-img>
+      <ion-item lines="none" class="sub">
+        <span class="loc">
+          <ion-icon name="pin"></ion-icon>
+          {{property.location}}
+        </span>
+        <ion-badge slot="end">{{property.type}}</ion-badge>
+      </ion-item>
+    </ion-card>
+    <div class="ion-padding-horizontal">
+      <div class="ratingContainer">
+        <ion-text color="primary">
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star-outline"></ion-icon>
+          <ion-icon name="star-outline"></ion-icon>
+        </ion-text>
+        <ion-chip class="chipLeft">
+          <ion-icon name="cube"></ion-icon>
+          <ion-label>{{property.type}}</ion-label>
+        </ion-chip>
+      </div>
+      <div *ngIf="property.description">
+        <h5 class="sectionHeader">Description</h5>
+        <p>{{property.description}}</p>
+      </div>
+      <div class="reviewContainer">
+        <h5 class="sectionHeader">Reviews</h5>
+        <ion-item>
+          <ion-avatar slot="start">
+            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+          </ion-avatar>
+          <ion-label>
+            <ion-text>Yego Allan</ion-text><br/>
+            <ion-text color="primary">
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+            </ion-text>
+            <ion-text>
+              <p>Breathtaking serene sightings and sauna.</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+      </div>
+      <div class="ion-margin-vertical">
+        <ion-button expand="block" color="primary">
+          Order
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

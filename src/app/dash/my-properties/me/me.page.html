@@ -10,9 +10,14 @@
       </ion-menu-button>
     </ion-buttons>
     <ion-title>My Properties</ion-title>
+    <ion-buttons slot="end">
+      <app-filter-button></app-filter-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-grid>
+    <app-property-list [properties]="properties"></app-property-list>
+  </ion-grid>
 </ion-content>

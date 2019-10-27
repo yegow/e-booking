@@ -1,0 +1,14 @@
+.fullWidth {
+  width: 100%;
+
+  .sub {
+    padding: 0;
+    font-size: 1.1em;
+    display: flex;
+    justify-content: space-between;
+
+    .loc {
+      color: #989aa2;
+    }
+  }
+}

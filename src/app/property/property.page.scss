@@ -1,0 +1,41 @@
+.fullWidth {
+  width: 100%;
+
+  .sub {
+    padding: 0;
+    font-size: 1.1em;
+    display: flex;
+    justify-content: space-between;
+
+    .loc {
+      color: #989aa2;
+    }
+  }
+}
+
+
+.ratingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionHeader {
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.reviewContainer {
+  -webkit-box-shadow: 0px 3px 8px 1px rgba(49,113,224,1);
+  -moz-box-shadow: 0px 3px 8px 1px rgba(49,113,224,1);
+  box-shadow: 0px 3px 8px 1px rgba(49,113,224,1);
+}
+
+/* Custom Skeleton Line Height and Margin */
+.custom-skeleton ion-skeleton-text {
+  line-height: 13px;
+}
+
+.custom-skeleton ion-skeleton-text:last-child {
+  margin-bottom: 5px;
+}

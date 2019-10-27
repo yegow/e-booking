@@ -38,9 +38,16 @@ export class LoginPage implements OnInit {
       })
       .subscribe(
         res => {
+          console.log("RES", res);
+          if (res.status === 204) {
+             return this.stateService.changeMessage('No user by that name');
+          }
+          if (res.status === 401) {
+            return this.stateService.changeMessage('Incorrect username and password combo');
+          }
           if (res.body.status === 'success') {
             this.stateService.login(res.body.result);
-            return this.stateService.login(res.body.result);
+            return this.router.navigate(['/dash']);
           }
 
           this.stateService.changeMessage(res.body.result);

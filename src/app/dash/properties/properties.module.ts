@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { PropertiesPage } from './properties.page';
 import { PropertyListModule } from 'src/app/modules/property-list/property-list.module';
+import { FilterButtonModule } from 'src/app/modules/filter-button/filter-button.module';
 
 const routes: Routes = [
   {
@@ -21,7 +22,8 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    PropertyListModule
+    PropertyListModule,
+    FilterButtonModule
   ],
   declarations: [PropertiesPage]
 })

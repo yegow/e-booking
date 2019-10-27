@@ -10,7 +10,7 @@ import { StateService } from 'src/app/services/state.service';
   styleUrls: ['./account.page.scss'],
 })
 export class AccountPage implements OnInit {
-  loggedUser: User;
+  loggedUser: User = null;
 
   constructor(
     public usersService: UsersService,
@@ -18,8 +18,6 @@ export class AccountPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loggedUser = this.usersService.loggedUser;
-    console.log('Logged User:', this.usersService.loggedUser);
   }
 
   ionViewWillEnter() {

@@ -5,14 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { MePage } from './me.page';
-import { PropertyListModule } from 'src/app/modules/property-list/property-list.module';
-import { FilterButtonModule } from 'src/app/modules/filter-button/filter-button.module';
+import { PropertyPage } from './property.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: MePage
+    component: PropertyPage
   }
 ];
 
@@ -21,10 +19,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
-    PropertyListModule,
-    FilterButtonModule
+    RouterModule.forChild(routes)
   ],
-  declarations: [MePage]
+  declarations: [PropertyPage]
 })
-export class MePageModule {}
+export class PropertyPageModule {}

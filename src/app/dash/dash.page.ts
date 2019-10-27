@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dash',
@@ -26,12 +27,16 @@ export class DashPage implements OnInit {
   ];
 
   constructor(
-    // private router: Router,
+    private router: Router,
     private menuController: MenuController
     ) { }
 
   ngOnInit() {
     this.menuController.enable(true, 'sideMenu');
+  }
+
+  logout() {
+    this.router.navigate(['/home']);
   }
 
 }

@@ -1,0 +1,9 @@
+.eb-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .eb-img, .eb-label {
+    display: inline-block;
+  }
+}

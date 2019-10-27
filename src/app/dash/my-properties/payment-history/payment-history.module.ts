@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { PaymentHistoryPage } from './payment-history.page';
+import { FilterButtonModule } from 'src/app/modules/filter-button/filter-button.module';
 
 const routes: Routes = [
   {
@@ -19,7 +20,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    FilterButtonModule
   ],
   declarations: [PaymentHistoryPage]
 })

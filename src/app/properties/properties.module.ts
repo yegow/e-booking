@@ -6,8 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { PropertiesPage } from './properties.page';
-import { PropertiesPopoverComponent } from '../components/properties-popover/properties-popover.component';
 import { PropertyListModule } from '../modules/property-list/property-list.module';
+import { FilterButtonModule } from '../modules/filter-button/filter-button.module';
 
 const routes: Routes = [
   {
@@ -23,10 +23,9 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     PropertyListModule,
+    FilterButtonModule
   ],
-  entryComponents: [
-    PropertiesPopoverComponent
-  ],
-  declarations: [PropertiesPage, PropertiesPopoverComponent]
+  entryComponents: [],
+  declarations: [PropertiesPage]
 })
 export class PropertiesPageModule {}

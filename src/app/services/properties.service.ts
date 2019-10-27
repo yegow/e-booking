@@ -15,10 +15,20 @@ export class PropertiesService {
 
   constructor(private http: HttpClient) { }
 
-  fetchProperties(): Observable<HttpResponse<EBResponse>> {
+  fetchProperties(options: {
+    userId?: number,
+    propertyId?: number,
+    type?: string,
+    sort?: string
+  }): Observable<HttpResponse<EBResponse>> {
     return this.http.get<EBResponse>(
       this.propertiesUrl,
-      {observe: 'response'}
+      {
+        observe: 'response',
+        params: {
+          ...options as any
+        }
+      }
     );
   }
 

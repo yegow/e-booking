@@ -7,18 +7,23 @@ const routes: Routes = [
   { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomePageModule) },
   { path: 'signup', loadChildren: () => import('./signup/signup.module').then(m => m.SignupPageModule) },
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule) },
-  { 
+  {
     path: 'properties',
     loadChildren: () => import('./properties/properties.module')
       .then(m => m.PropertiesPageModule),
   },
-  { 
+  {
     path: 'dash',
     loadChildren: () => import('./dash/dash.module')
       .then(m => m.DashPageModule),
     canActivate: [AuthGuard],
     // canLoad: [] // Implement later.
   },
+  {
+    path: 'properties/:id', loadChildren: () => import('./property/property.module')
+      .then(m => m.PropertyPageModule)
+  },
+
 ];
 
 @NgModule({
