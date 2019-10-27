@@ -84,8 +84,4 @@ export class SignupPage implements OnInit {
     );
   }
 
-  showMsg() {
-    console.log('This button is working');
-  }
-
 }
