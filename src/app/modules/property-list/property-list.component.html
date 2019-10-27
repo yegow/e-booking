@@ -1,0 +1,18 @@
+<ion-row *ngIf="properties">
+  <ion-col size="12" *ngFor="let property in properties">
+    <ion-card>
+      <ion-row>
+        <ion-img src="assets/e-booking-placeholder.png"></ion-img>
+        <ion-card-header>
+          <ion-card-title>{{property.title}}</ion-card-title>
+          <ion-card-subtitle>
+            <ion-icon name="pin"></ion-icon>
+            {{property.location}}
+          </ion-card-subtitle>
+        </ion-card-header>
+      </ion-row>
+    </ion-card>
+  </ion-col>
+</ion-row>
+
+<app-skeleton *ngIf="!properties"></app-skeleton>

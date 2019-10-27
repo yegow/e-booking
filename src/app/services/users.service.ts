@@ -1,52 +1,38 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-class User {
-  firstName: string
-  lastName: string
-  email: string
-  username: string
-  mobile?: string
-  address?: string
-  password: string
-}
-
-const miko: User = {
-  firstName: 'miko',
-  lastName: 'yin',
-  email: 'yin@mail.com',
-  username: 'miyi',
-  password: 'yaomingi',
-}
+import { User } from '../schemas/user';
+import { apiEnd, url } from './config';
+import { EBResponse } from '../schemas/server-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  users: User[] = [miko];
-  loggedUser: User;
+  usersUrl = url + apiEnd + '/auth';
 
-  constructor() { }
+  loggedUser: User = null;
+  users: User[] = [];
+  redirectUrl = '';
 
-  signUp(user: User) {
-    return new Promise((resolve, _reject) => {
-      this.users.push(user);
-      this.loggedUser = user;
-      resolve(this.loggedUser);
-    })
+  constructor(
+    private http: HttpClient
+  ) {}
+
+  signUp(user: User): Observable<HttpResponse<EBResponse>> {
+    return this.http.post<EBResponse>(
+      `${this.usersUrl}/signup`,
+      user,
+      {observe: 'response'}
+    );
   }
 
-  login(user?: {username: string, password: string}): Promise<User|Error> {
-    return new Promise((resolve, reject) => {
-      const isAUser = this.users.find(u => u.username === user.username);
-      if (isAUser) {
-        if (isAUser.password === user.password) {
-          resolve(isAUser);
-        } else {
-          reject(new Error('Incorrect username password combo!'));
-        }
-      } else {
-        reject(new Error('No user by that name!'));
-      }
-    });
+  login(user?: {username: string, password: string}): Observable<HttpResponse<EBResponse>> {
+    return this.http.post<EBResponse>(
+      `${this.usersUrl}/login`,
+      {...user},
+      {observe: 'response'}
+    );
   }
 }

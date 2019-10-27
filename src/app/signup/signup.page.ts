@@ -4,15 +4,16 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 
 import { UsersService } from '../services/users.service';
+import { StateService } from '../services/state.service';
 
 const userOpts = (form: FormGroup, returnFields: string[]) => {
   const temp: any = {};
   returnFields.forEach(f => {
-    temp[f] = form.get(f).value
+    temp[f] = form.get(f).value;
   });
 
   return temp;
-  };
+};
 
 @Component({
   selector: 'app-signup',
@@ -55,30 +56,36 @@ export class SignupPage implements OnInit {
   });
 
   constructor(
-    private userService: UsersService,
+    private usersService: UsersService,
+    private stateService: StateService,
     private router: Router,
-    private toastController: ToastController
   ) { }
 
   ngOnInit() {
   }
 
   signUp() {
-    this.userService.signUp(userOpts(
+    this.usersService.signUp(userOpts(
       this.signUpForm,
       ['firstName', 'lastName', 'email', 'username', 'mobile', 'address', 'password']
     ))
-    .then(_user => {
-      this.router.navigate(['/dash']);
-    })
-    .catch(async err => {
-      const errToast = await this.toastController.create({
-        message: err.message,
-        color: 'danger'
-      });
-      
-      errToast.present();
-    });
+    .subscribe(
+      res => {
+        if (res.body.status === 'success') {
+          this.stateService.login(res.body.result);
+          return this.router.navigate(['/dash']);
+        }
+
+        this.stateService.changeMessage(res.body.result);
+      },
+      error => {
+        this.stateService.changeMessage(error.message);
+      }
+    );
+  }
+
+  showMsg() {
+    console.log('This button is working');
   }
 
 }

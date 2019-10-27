@@ -1,25 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Routes, RouterModule } from '@angular/router';
-
 import { IonicModule } from '@ionic/angular';
 
 import { MyPropertiesPage } from './my-properties.page';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: MyPropertiesPage
-  }
-];
+import { MyPropertiesPageRoutingModule } from './my-properties-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    MyPropertiesPageRoutingModule
   ],
   declarations: [MyPropertiesPage]
 })

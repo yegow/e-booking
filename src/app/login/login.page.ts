@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
 
 import { UsersService } from '../services/users.service';
+import { StateService } from '../services/state.service';
 
 @Component({
   selector: 'app-login',
@@ -24,8 +24,8 @@ export class LoginPage implements OnInit {
 
   constructor(
     private userService: UsersService,
+    private stateService: StateService,
     private router: Router,
-    private toastController: ToastController
   ) { }
 
   ngOnInit() {
@@ -36,21 +36,19 @@ export class LoginPage implements OnInit {
         username: this.loginForm.get('username').value,
         password: this.loginForm.get('password').value
       })
-      .then(_user => {
-        this.router.navigate(['/dash']);
-      })
-      .catch(async err => {
-        const errToast = await this.toastController.create({
-          header: "There was an error",
-          message: err.message,
-          color: 'danger',
-          showCloseButton: true,
-          closeButtonText: "Close",
-          duration: 3000
-        });
-        
-        errToast.present();
-      });
+      .subscribe(
+        res => {
+          if (res.body.status === 'success') {
+            this.stateService.login(res.body.result);
+            return this.stateService.login(res.body.result);
+          }
+
+          this.stateService.changeMessage(res.body.result);
+        },
+        error => {
+          this.stateService.changeMessage(error.message);
+        }
+      );
   }
 
 }

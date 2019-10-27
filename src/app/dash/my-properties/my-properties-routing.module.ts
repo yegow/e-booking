@@ -29,7 +29,7 @@ const routes: Routes = [
             },
             {
                 path: '',
-                redirectTo: 'all',
+                redirectTo: '/dash/properties/mines/all',
                 pathMatch: 'full'
             }
         ]

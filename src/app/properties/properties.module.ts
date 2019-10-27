@@ -6,7 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { PropertiesPage } from './properties.page';
-import { PropertiesPopoverComponent } from '../properties-popover/properties-popover.component';
+import { PropertiesPopoverComponent } from '../components/properties-popover/properties-popover.component';
+import { PropertyListModule } from '../modules/property-list/property-list.module';
 
 const routes: Routes = [
   {
@@ -20,7 +21,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    PropertyListModule,
   ],
   entryComponents: [
     PropertiesPopoverComponent

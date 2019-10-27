@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
-import { PropertiesPopoverComponent } from '../properties-popover/properties-popover.component';
+
+import { PropertiesPopoverComponent } from '../components/properties-popover/properties-popover.component';
+import { PropertiesService } from '../services/properties.service';
+import { Property } from '../schemas/property';
+import { StateService } from '../services/state.service';
 
 @Component({
   selector: 'app-properties',
@@ -8,10 +12,23 @@ import { PropertiesPopoverComponent } from '../properties-popover/properties-pop
   styleUrls: ['./properties.page.scss'],
 })
 export class PropertiesPage implements OnInit {
+  properties: Property[] = null;
 
-  constructor(private popoverController: PopoverController) { }
+  constructor(
+    private popoverController: PopoverController,
+    private propertiesService: PropertiesService,
+    private stateService: StateService
+  ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
+    this.propertiesService.fetchProperties()
+      .subscribe(
+        resp => { this.properties = resp.body.result; },
+        error => { this.stateService.changeMessage(error.message); }
+      );
   }
 
   async present(ev: any) {
