@@ -30,8 +30,6 @@ export class PropertyPage implements OnInit {
       resp => { this.property = resp.body.result as Property; },
       error => { this.stateService.changeMessage(error.message); }
     );
-
-    console.log('Viewing propety', this.property);
   }
 
   ionViewWillEnter() {
