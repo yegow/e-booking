@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 
 import { Property } from '../schemas/property';
 import { PropertiesService } from '../services/properties.service';
 import { StateService } from '../services/state.service';
+import { ReviewsService } from '../services/reviews.service';
+import { Review } from '../schemas/review';
 
 @Component({
   selector: 'app-property',
@@ -13,11 +15,13 @@ import { StateService } from '../services/state.service';
 })
 export class PropertyPage implements OnInit {
   property: Property = null;
+  reviews: Review[] = null;
+
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private stateService: StateService,
-    private propertiesService: PropertiesService
+    private propertiesService: PropertiesService,
+    private reviewsService: ReviewsService
   ) { }
 
   ngOnInit() {
@@ -30,16 +34,20 @@ export class PropertyPage implements OnInit {
       resp => { this.property = resp.body.result as Property; },
       error => { this.stateService.changeMessage(error.message); }
     );
-
-    console.log('Viewing propety', this.property);
   }
 
   ionViewWillEnter() {
-    // this.propertiesService.fetchProperty(this.router.params.id)
-    //   .subscribe(
-    //     resp => { this.property = resp.body.result; },
-    //     error => { this.stateService.changeMessage(error.message); }
-    //   );
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) =>
+        this.reviewsService.fetchAll({
+          propertyId: +params.get('id')
+        })
+      )
+    )
+    .subscribe(
+      resp => { this.reviews = resp.body.result as Review[]; },
+      error => { this.stateService.changeMessage(error.message); }
+    );
   }
 
 }
