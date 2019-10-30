@@ -11,5 +11,5 @@ export class MyPropertiesPage implements OnInit {
 
   ngOnInit() {
   }
-
+  
 }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 
 import { SessionStore, SessionState } from '../store/session.store';
+import { ToastService } from './toast.service';
 import { apiEnd, url } from './config';
 
 @Injectable({
@@ -13,7 +14,8 @@ export class SessionService {
 
   constructor(
     private sessionStore: SessionStore,
-    private http: HttpClient
+    private http: HttpClient,
+    private toastService: ToastService
   ) { }
 
   signUp(user: SessionState) {
@@ -21,9 +23,16 @@ export class SessionService {
       `${this.usersUrl}/signup`,
       user,
       {observe: 'response'}
-    ).pipe(tap(resp => {
-      console.log('Tapping resp', resp);
-    }));
+    ).pipe(tap(
+      (resp: {body: any}) => {
+        if (resp.body.status === 'success') {
+          return this.sessionStore.update(resp.body.result);
+        }
+
+        this.toastService.showError(resp.body.result);
+      },
+      this.handleError.bind(this)
+    ));
   }
 
   login(user?: {username: string, password: string}) {
@@ -31,7 +40,40 @@ export class SessionService {
       `${this.usersUrl}/login`,
       {...user},
       {observe: 'response'}
-    );
+    ).pipe(tap(
+      (resp) => {
+        switch (resp.status) {
+          case 204:
+            this.toastService.showError({
+              message: 'No user by that username.'
+            });
+            break;
+          case 200:
+            const {status, result} = resp.body as any;
+            if (status === 'success') {
+              return this.sessionStore.update(result);
+            }
+
+            this.toastService.showError(result);
+            break;
+          default:
+          console.log('Unexpected status::', resp.status);
+        }
+      },
+      this.handleError.bind(this)
+    ));
+  }
+
+  // Error handle
+  handleError(err: any) {
+    // {status: number, ok: boolean} = err
+    if (err.status === 0) {
+      this.toastService.showError({
+        message: 'Please try again later ⏱️.'
+      });
+    }
+    console.log('Full error object', err);
+    throw err;
   }
 
 }

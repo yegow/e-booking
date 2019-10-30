@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { PropertiesService } from 'src/app/services/properties.service';
-import { StateService } from 'src/app/services/state.service';
-import { Property } from 'src/app/schemas/property';
+import { PropertiesQuery } from 'src/app/store/properties.query';
 
 @Component({
   selector: 'app-me',
@@ -10,11 +8,10 @@ import { Property } from 'src/app/schemas/property';
   styleUrls: ['./me.page.scss'],
 })
 export class MePage implements OnInit {
-  properties: Property[] = null;
+  properties: any[] = null;
 
   constructor(
-    private propertiesService: PropertiesService,
-    private stateService: StateService
+    private proeprtiesQuery: PropertiesQuery,
   ) { }
 
   ngOnInit() {
@@ -22,12 +19,11 @@ export class MePage implements OnInit {
 
   ionViewWillEnter() {
     console.log('View My Properties entering');
-    this.propertiesService.fetchProperties({})
+    this.proeprtiesQuery.properties$
       .subscribe(
-        resp => {
-          this.properties = resp.body.result;
+        properties => {
+          this.properties = properties;
         },
-        error => { this.stateService.changeMessage(error.message); }
       );
   }
 

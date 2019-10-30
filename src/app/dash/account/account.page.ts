@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { UsersService } from 'src/app/services/users.service';
-import { User } from 'src/app/schemas/user';
-import { StateService } from 'src/app/services/state.service';
+import { SessionQuery } from 'src/app/store/session.query';
 
 @Component({
   selector: 'app-account',
@@ -10,22 +8,24 @@ import { StateService } from 'src/app/services/state.service';
   styleUrls: ['./account.page.scss'],
 })
 export class AccountPage implements OnInit {
-  loggedUser: User = null;
+  loggedUser: any = null;
 
   constructor(
-    public usersService: UsersService,
-    private stateService: StateService
+    private sessionQuery: SessionQuery
   ) { }
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
-    this.stateService.loggedUser.subscribe(
-      user => {
-        this.loggedUser = user;
-      }
-    );
+    console.log('View entering');
+    this.sessionQuery.user$
+      .subscribe(
+        user => {
+          console.log('Session for user', user);
+          this.loggedUser = user;
+        }
+      );
   }
 
   get fullName() {
