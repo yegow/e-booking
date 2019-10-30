@@ -43,7 +43,8 @@ const routes: Routes = [
                 pathMatch: 'full'
             }
         ]
-    },
+    },  { path: 'edit-account', loadChildren: './edit-account/edit-account.module#EditAccountPageModule' },
+
 ]
 
 @NgModule({

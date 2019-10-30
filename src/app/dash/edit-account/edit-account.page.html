@@ -5,13 +5,16 @@
         [text]=""
         [icon]="arrowRoundBack">
       </ion-back-button>
+      <ion-menu-button menu="sideMenu">
+        <ion-icon name="menu"></ion-icon>
+      </ion-menu-button>
     </ion-buttons>
-    <ion-title>Sign up</ion-title>
+    <ion-title>Edit your details</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form class="ion-padding" [formGroup]="signUpForm" (ngSubmit)="signUp()">
+  <form class="ion-padding" [formGroup]="editForm" (ngSubmit)="confirm()">
     <ion-item>
       <ion-label position="floating">First name</ion-label>
       <ion-input type="text" formControlName="firstName"></ion-input>
@@ -19,10 +22,6 @@
     <ion-item>
       <ion-label position="floating">Last name</ion-label>
       <ion-input type="text" formControlName="lastName"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="email" formControlName="email"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Username</ion-label>
@@ -36,21 +35,9 @@
       <ion-label position="floating">Address</ion-label>
       <ion-input type="text" formControlName="address"></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password"  formControlName="password"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-checkbox slot="start" formControlName="rememberMe" checked="false"></ion-checkbox>
-      <ion-label position="inline" class="ion-text-wrap">
-        I have read and understood the
-        <a href="#">terms and conditions</a>.
-      </ion-label>
-    </ion-item>
 
     <ion-button expand="block" [disabled]="!signUpForm.valid" type="submit">
-      Sign up
+      Confirm
     </ion-button>
   </form>
 </ion-content>

@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { UsersService } from '../services/users.service';
-import { StateService } from '../services/state.service';
 import { SessionService } from '../services/session.service';
 
 const userOpts = (form: FormGroup, returnFields: string[]) => {
@@ -33,6 +31,7 @@ export class SignupPage implements OnInit {
       Validators.pattern(/[a-z]/i),
     ]),
     email: new FormControl('', [
+      Validators.email,
       Validators.required,
     ]),
     username: new FormControl('', [
@@ -57,8 +56,6 @@ export class SignupPage implements OnInit {
 
   constructor(
     private sessionService: SessionService,
-    private usersService: UsersService,
-    private stateService: StateService,
     private router: Router,
   ) { }
 
@@ -71,21 +68,13 @@ export class SignupPage implements OnInit {
       ['firstName', 'lastName', 'email', 'username', 'mobile', 'address', 'password']
     );
 
-    this.sessionService.signUp(user).subscribe();
-    // this.usersService.signUp(user)
-    //   .subscribe(
-    //     res => {
-    //       if (res.body.status === 'success') {
-    //         this.stateService.login(res.body.result);
-    //         return this.router.navigate(['/dash']);
-    //       }
-
-    //       this.stateService.changeMessage(res.body.result);
-    //     },
-    //     error => {
-    //       this.stateService.changeMessage(error.message);
-    //     }
-    //   );
+    this.sessionService.signUp(user).subscribe(
+      res => {
+        if (res.body.status === 'success') {
+          return this.router.navigate(['/dash']);
+        }
+      }
+    );
   }
 
 }

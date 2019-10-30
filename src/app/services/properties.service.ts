@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
 
-import { Observable } from 'rxjs';
-
-import { EBResponse } from '../schemas/server-response';
-import { Property } from '../schemas/property';
+import { PropertiesStore, PropertiesState } from '../store/properties.store';
+import { ToastService } from './toast.service';
 import {url, apiEnd } from './config';
 
 @Injectable({
@@ -13,15 +12,14 @@ import {url, apiEnd } from './config';
 export class PropertiesService {
   propertiesUrl = url + apiEnd + '/properties';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private toastService: ToastService,
+    private propertiesStore: PropertiesStore
+  ) {  }
 
-  fetchProperties(options: {
-    userId?: number,
-    propertyId?: number,
-    type?: string,
-    sort?: string
-  }): Observable<HttpResponse<EBResponse>> {
-    return this.http.get<EBResponse>(
+  fetchProperties(options: PropertiesState) {
+    return this.http.get(
       this.propertiesUrl,
       {
         observe: 'response',
@@ -29,21 +27,60 @@ export class PropertiesService {
           ...options as any
         }
       }
-    );
+    ).pipe(tap(
+      (resp: {body: any}) => {
+        if (resp.body.status === 'success') {
+          // return this.propertiesStore.set(resp.body.result);
+          return this.propertiesStore.upsertMany(resp.body.result);
+        }
+        this.toastService.showError(resp.body.result);
+      },
+      this.handleError
+    ));
   }
 
-  fetchProperty(id: number): Observable<HttpResponse<EBResponse>> {
-    return this.http.get<EBResponse>(
+  fetchProperty(id: number) {
+    return this.http.get(
       `${this.propertiesUrl}/${id}`,
       {observe: 'response'}
-    );
+    ).pipe(tap(
+      (resp: {body: any}) => {
+        if (resp.body.status === 'success') {
+          const {result} = resp.body;
+          this.propertiesStore.upsert(result.id, result);
+          return this.propertiesStore.setActive(result.id);
+        }
+        this.toastService.showError(resp.body.result);
+      },
+      this.handleError
+    ));
   }
 
-  updateProperty(property: Property): Observable<HttpResponse<EBResponse>> {
-    return this.http.put<EBResponse>(
+  updateProperty(property: PropertiesState) {
+    return this.http.put(
       `${this.propertiesUrl}/${property.id}`,
       property,
       {observe: 'response'}
-    );
+    ).pipe(tap(
+      (resp: {body: any}) => {
+        if (resp.body.status === 'success') {
+          const {result} = resp.body;
+          this.propertiesStore.update(result.id, result);
+          return this.propertiesStore.setActive(result.id);
+        }
+      },
+      this.handleError
+    ));
+  }
+
+  // Error handleError
+  handleError(err: any) {
+    // {status: number, ok: boolean} = err
+    if (err.status === 0) {
+      this.toastService.showError({
+        message: 'Please try again later ⏱️.'
+      });
+    }
+    console.log('Full error object', err);
   }
 }

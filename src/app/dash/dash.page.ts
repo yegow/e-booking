@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
+import { PropertiesService } from '../services/properties.service';
+
 @Component({
   selector: 'app-dash',
   templateUrl: './dash.page.html',
@@ -28,12 +30,22 @@ export class DashPage implements OnInit {
 
   constructor(
     private router: Router,
-    private menuController: MenuController
+    private menuController: MenuController,
+    private propertiesService: PropertiesService
     ) { }
 
   ngOnInit() {
+    console.log('Dash page ngInit called');
+    this.propertiesService.fetchProperties({
+      filter: 'ALL',
+      active: null
+    }).subscribe();
     this.menuController.enable(true, 'sideMenu');
   }
+
+  // ionViewWillEnter() {
+  //
+  // }
 
   logout() {
     this.router.navigate(['/home']);

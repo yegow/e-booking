@@ -48,10 +48,10 @@
         <h5 class="sectionHeader">Description</h5>
         <p>{{property.description}}</p>
       </div>
+
+      <h5 class="sectionHeader">Reviews</h5>
       <div class="reviewContainer">
-        <h5 class="sectionHeader">Reviews</h5>
-        
-        <ion-item *ngIf="!result">
+        <ion-item *ngIf="!reviews">
           <ion-skeleton-text animated style="width: 27px; height: 27px" slot="start"></ion-skeleton-text>
           <ion-label>
             <h3>
@@ -65,8 +65,8 @@
             </p>
           </ion-label>
         </ion-item>
-        
-        <ion-item *ngIf="reviews">
+
+        <ion-item *ngIf="reviews && reviews.length">
           <ion-avatar slot="start">
             <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
           </ion-avatar>
@@ -82,7 +82,7 @@
             </ion-text>
           </ion-label>
         </ion-item>
-        <ion-text>No reviews yet</ion-text>
+        <ion-text *ngIf="reviews && !reviews.length">No reviews yet</ion-text>
       </div>
       <div class="ion-margin-vertical">
         <ion-button expand="block" color="primary">

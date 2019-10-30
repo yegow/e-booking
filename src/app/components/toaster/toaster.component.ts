@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 
-import { StateService } from 'src/app/services/state.service';
+import { ToastService } from 'src/app/services/toast.service';
 
-class Message {
+class MessageOptions {
   message: string;
   header?: string;
   color?: string;
@@ -17,24 +17,22 @@ class Message {
 export class ToasterComponent implements OnInit {
 
   constructor(
-    private stateService: StateService,
+    private toastService: ToastService,
     private toastController: ToastController
   ) { }
 
   ngOnInit() {
-    this.stateService.currentMessage.subscribe(async msg => {
-      if (msg === '') {
+    this.toastService.currentMessage.subscribe(async msgOpts => {
+      if (msgOpts === null) {
         return;
       }
-      const toast = await this.showToast({
-        message: msg
-      });
+      const toast = await this.showToast(msgOpts);
 
       toast.present();
     });
   }
 
-  async showToast(m: Message) {
+  async showToast(m: MessageOptions) {
     return await this.toastController.create({
       header: m.header || 'There was an error' ,
       message: m.message,

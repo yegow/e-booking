@@ -8,6 +8,9 @@ export interface SessionState {
   lastName: string;
   firstName: string;
   email: string;
+  mobile?: string;
+  address?: string;
+  role?: string;
 }
 
 export function createInitialState(): SessionState {
@@ -29,4 +32,3 @@ export class SessionStore extends Store<SessionState> {
   }
 
 }
-
