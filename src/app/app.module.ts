@@ -10,6 +10,9 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ToasterComponent } from './components/toaster/toaster.component';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
+import { AkitaNgRouterStoreModule } from '@datorama/akita-ng-router-store';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent, ToasterComponent],
@@ -19,6 +22,8 @@ import { ToasterComponent } from './components/toaster/toaster.component';
     HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    environment.production ? [] : AkitaNgDevtools.forRoot(),
+    AkitaNgRouterStoreModule.forRoot(),
   ],
   providers: [
     StatusBar,
