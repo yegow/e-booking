@@ -11,8 +11,8 @@
     </ion-buttons>
     <ion-title>Account</ion-title>
     <ion-buttons slot="end">
-      <ion-button>
-        <ion-icon slot="icon-only" name="more" (click)="toggleEditModal()"></ion-icon>
+      <ion-button (click)="presentPopover($event)">
+        <ion-icon slot="icon-only" name="more"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

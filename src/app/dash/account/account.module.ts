@@ -6,6 +6,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { AccountPage } from './account.page';
+import { AccountPopoverComponent } from 'src/app/components/account-popover/account-popover.component';
+import { EditAccountPageModule } from '../edit-account/edit-account.module';
+import { EditAccountPage } from '../edit-account/edit-account.page';
 
 const routes: Routes = [
   {
@@ -19,8 +22,10 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    EditAccountPageModule
   ],
-  declarations: [AccountPage]
+  entryComponents: [AccountPopoverComponent, EditAccountPage],
+  declarations: [AccountPage, AccountPopoverComponent]
 })
 export class AccountPageModule {}

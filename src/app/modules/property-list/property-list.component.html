@@ -1,10 +1,13 @@
 <ion-row *ngIf="properties">
   <ion-col size="12" *ngFor="let property of properties">
     <ion-card [routerLink]="['/properties', property.id]">
-      <ion-row>
-        <ion-img src="assets/e-booking-placeholder.png"></ion-img>
+        <ion-img [src]="url + '/' + property.image"></ion-img>
         <ion-card-header class="fullWidth">
           <ion-card-title>{{property.title}}</ion-card-title>
+          <div class="priceHeader">
+            <span class="price">KES {{property.price.toLocaleString()}}</span> &nbsp;
+            <span>{{property.category}}</span>
+          </div>
           <ion-card-subtitle>
             <ion-item lines="none" class="sub">
               <span class="loc">
@@ -15,7 +18,6 @@
             </ion-item>
           </ion-card-subtitle>
         </ion-card-header>
-      </ion-row>
     </ion-card>
   </ion-col>
 </ion-row>

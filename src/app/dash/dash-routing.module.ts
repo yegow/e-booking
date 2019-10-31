@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 import { DashPage } from './dash.page';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -43,9 +43,8 @@ const routes: Routes = [
                 pathMatch: 'full'
             }
         ]
-    },  { path: 'edit-account', loadChildren: './edit-account/edit-account.module#EditAccountPageModule' },
-
-]
+    },
+];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],

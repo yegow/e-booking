@@ -13,6 +13,17 @@
   }
 }
 
+img {
+  height:300px !important;
+  width: auto !important;
+  object-fit:cover !important;
+  object-position: 50% 50% !important;
+}
+
+.orderBtn {
+  float: right;
+  display: block;
+}
 
 .ratingContainer {
   display: flex;
@@ -25,7 +36,14 @@
   font-weight: 600;
 }
 
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .reviewContainer {
+  padding: .3em;
   -webkit-box-shadow: 0px 3px 8px 1px rgba(49,113,224,1);
   -moz-box-shadow: 0px 3px 8px 1px rgba(49,113,224,1);
   box-shadow: 0px 3px 8px 1px rgba(49,113,224,1);

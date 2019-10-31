@@ -20,7 +20,7 @@ export class SessionService {
 
   signUp(user: SessionState) {
     return this.http.post(
-      `${this.usersUrl}/signup`,
+      `${this.usersUrl}/signup.php`,
       user,
       {observe: 'response'}
     ).pipe(tap(
@@ -29,7 +29,9 @@ export class SessionService {
           return this.sessionStore.update(resp.body.result);
         }
 
-        this.toastService.showError(resp.body.result);
+        this.toastService.showError({
+          message: resp.body.result
+        });
       },
       this.handleError.bind(this)
     ));
@@ -37,7 +39,7 @@ export class SessionService {
 
   login(user?: {username: string, password: string}) {
     return this.http.post(
-      `${this.usersUrl}/login`,
+      `${this.usersUrl}/login.php`,
       {...user},
       {observe: 'response'}
     ).pipe(tap(
@@ -51,11 +53,12 @@ export class SessionService {
           case 200:
             const {status, result} = resp.body as any;
             if (status === 'success') {
-              console.log("Loggin in user:", result);
               return this.sessionStore.update(result);
             }
 
-            this.toastService.showError(result);
+            this.toastService.showError({
+              message: result
+            });
             break;
           default:
           console.log('Unexpected status::', resp.status);

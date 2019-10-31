@@ -3,8 +3,8 @@ import { Property } from './property.model';
 import { EntityState, ActiveState, EntityStore, StoreConfig } from '@datorama/akita';
 
 export interface PropertiesState extends EntityState<Property>, ActiveState {
-  userId?: string; // flag for various filtering
-  type?: string;
+  userId?: number; // flag for various filtering
+  active: null;
 }
 
 @Injectable({ providedIn: 'root' })

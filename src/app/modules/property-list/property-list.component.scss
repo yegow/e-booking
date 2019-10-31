@@ -11,4 +11,18 @@
       color: #989aa2;
     }
   }
+
+  .priceHeader {
+    display: flex;
+    padding-top: .3em;
+    justify-content: space-between;
+
+    span {
+      display: inline-block;
+    }
+
+    .price {
+      font-weight: bolder;
+    }
+  }
 }

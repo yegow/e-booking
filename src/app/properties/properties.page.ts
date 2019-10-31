@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { PropertiesQuery } from '../store/properties.query';
+import { PropertiesService } from '../services/properties.service';
 
 @Component({
   selector: 'app-properties',
@@ -11,17 +12,23 @@ export class PropertiesPage implements OnInit {
   properties: any[];
 
   constructor(
-    private proeprtiesQuery: PropertiesQuery
+    private propertiesQuery: PropertiesQuery,
+    private propertiesService: PropertiesService
   ) { }
 
   ngOnInit() {
+    this.propertiesService.fetchProperties().subscribe();
   }
 
   ionViewWillEnter() {
-    this.proeprtiesQuery.properties$
+    this.propertiesQuery.properties$
       .subscribe(
         properties => { this.properties = properties; }
       );
+  }
+
+  fetchProperties() {
+    this.propertiesService.fetchProperties();
   }
 
 }

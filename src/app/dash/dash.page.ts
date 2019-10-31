@@ -35,7 +35,6 @@ export class DashPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    console.log('Dash page ngInit called');
     this.propertiesService.fetchProperties({
       filter: 'ALL',
       active: null

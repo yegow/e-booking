@@ -1,13 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button
-        [text]=""
-        [icon]="arrowRoundBack">
-      </ion-back-button>
-      <ion-menu-button menu="sideMenu">
-        <ion-icon name="menu"></ion-icon>
-      </ion-menu-button>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>Edit your details</ion-title>
   </ion-toolbar>
@@ -36,7 +32,7 @@
       <ion-input type="text" formControlName="address"></ion-input>
     </ion-item>
 
-    <ion-button expand="block" [disabled]="!signUpForm.valid" type="submit">
+    <ion-button expand="block" [disabled]="!editForm.valid" type="submit">
       Confirm
     </ion-button>
   </form>

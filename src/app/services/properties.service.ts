@@ -10,7 +10,7 @@ import {url, apiEnd } from './config';
   providedIn: 'root'
 })
 export class PropertiesService {
-  propertiesUrl = url + apiEnd + '/properties';
+  propertiesUrl = url + apiEnd + '/properties.php';
 
   constructor(
     private http: HttpClient,
@@ -18,7 +18,7 @@ export class PropertiesService {
     private propertiesStore: PropertiesStore
   ) {  }
 
-  fetchProperties(options: PropertiesState) {
+  fetchProperties(options?: PropertiesState) {
     return this.http.get(
       this.propertiesUrl,
       {
@@ -29,6 +29,7 @@ export class PropertiesService {
       }
     ).pipe(tap(
       (resp: {body: any}) => {
+        console.log(resp.body);
         if (resp.body.status === 'success') {
           // return this.propertiesStore.set(resp.body.result);
           return this.propertiesStore.upsertMany(resp.body.result);

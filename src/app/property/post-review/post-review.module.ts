@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
 
-import { EditAccountPage } from './edit-account.page';
+import { PostReviewPage } from './post-review.page';
 
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     IonicModule,
+    ReactiveFormsModule
   ],
-  declarations: [EditAccountPage]
+  declarations: [PostReviewPage]
 })
-export class EditAccountPageModule {}
+export class PostReviewPageModule {}

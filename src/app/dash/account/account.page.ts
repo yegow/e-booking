@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController, PopoverController } from '@ionic/angular';
 
 import { SessionQuery } from 'src/app/store/session.query';
-import { ModalController } from '@ionic/angular';
 import { EditAccountPage } from '../edit-account/edit-account.page';
+import { AccountPopoverComponent } from 'src/app/components/account-popover/account-popover.component';
 
 @Component({
   selector: 'app-account',
@@ -14,28 +15,27 @@ export class AccountPage implements OnInit {
 
   constructor(
     private sessionQuery: SessionQuery,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private popoverController: PopoverController
   ) { }
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
-    console.log('View entering');
     this.sessionQuery.user$
       .subscribe(
         user => {
-          console.log('Session for user', user);
           this.loggedUser = user;
         }
       );
   }
 
-  async toggleEditModal() {
+  async showEditModal() {
     const modal = await this.modalController.create({
       component: EditAccountPage,
       componentProps: {
-        userId: this.loggedUser.id
+        ...this.loggedUser
       },
     });
 
@@ -47,4 +47,16 @@ export class AccountPage implements OnInit {
     return `${firstName} ${lastName}`;
   }
 
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: AccountPopoverComponent,
+      event: ev,
+      componentProps: {
+        showEditModal: this.showEditModal.bind(this)
+      }
+      // translucent: true
+    });
+
+    return await popover.present();
+  }
 }

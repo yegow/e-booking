@@ -20,8 +20,8 @@
     <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
   </div>
   <div *ngIf="property">
-    <ion-card>
-      <ion-img src="assets/e-booking-placeholder.png"></ion-img>
+    <ion-card class="card">
+      <ion-img class="image" [src]="url+'/'+property.image"></ion-img>
       <ion-item lines="none" class="sub">
         <span class="loc">
           <ion-icon name="pin"></ion-icon>
@@ -30,6 +30,9 @@
         <ion-badge slot="end">{{property.type}}</ion-badge>
       </ion-item>
     </ion-card>
+
+    <ion-button color="primary" class="orderBtn">Order</ion-button>
+
     <div class="ion-padding-horizontal">
       <div class="ratingContainer">
         <ion-text color="primary">
@@ -46,10 +49,13 @@
       </div>
       <div *ngIf="property.description">
         <h5 class="sectionHeader">Description</h5>
-        <p>{{property.description}}</p>
+        <span [innerHTML]="property.description"></span>
       </div>
 
-      <h5 class="sectionHeader">Reviews</h5>
+      <div class="reviewHeader">
+        <h5 class="sectionHeader">Reviews</h5>
+        <ion-button size="small" color="success" (click)="showModal()">Add</ion-button>
+      </div>
       <div class="reviewContainer">
         <ion-item *ngIf="!reviews">
           <ion-skeleton-text animated style="width: 27px; height: 27px" slot="start"></ion-skeleton-text>
@@ -83,11 +89,6 @@
           </ion-label>
         </ion-item>
         <ion-text *ngIf="reviews && !reviews.length">No reviews yet</ion-text>
-      </div>
-      <div class="ion-margin-vertical">
-        <ion-button expand="block" color="primary">
-          Order
-        </ion-button>
       </div>
     </div>
   </div>

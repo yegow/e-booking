@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   server: {
-    url: 'http://localhost:3000',
-    apiEnd: '/api'
+    url: 'https://students.njoka.net', // 'http://localhost:3000'
+    apiEnd: '/ebooking/apk', // 'api
   }
 };
 

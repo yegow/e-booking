@@ -14,8 +14,7 @@ export class FilterButtonComponent implements OnInit {
 
   ngOnInit() {}
 
-  async present(ev: any) {
-    console.log("**** Presenting a popOver");
+  async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: PropertiesPopoverComponent,
       event: ev,

@@ -49,13 +49,14 @@ export class OrdersService {
   }
 
   async order(propertyId: number) {
-    const userId = await this.getSessionId();
+    const userId = this.sessionQuery.getValue().id;
     return this.http.post(
       `${this.ordersUrl}`,
       {propertyId, userId},
       {observe: 'response'}
     ).pipe(tap(
       resp => {
+        console.log('Received response');
         if (resp.status === 201) {
           const {result} = resp.body as any;
           this.ordersStore.add(result);
@@ -92,20 +93,6 @@ export class OrdersService {
       },
       this.handleError
     ));
-  }
-
-  // Helper to get session
-  getSessionId(): Promise<number|null> {
-    return new Promise((resolve, reject) => {
-      this.sessionQuery.user$
-        .subscribe(user => {
-          if (user.token) {
-            resolve(user.id);
-          } else {
-            reject(null);
-          }
-        });
-    });
   }
 
   // Error handle
