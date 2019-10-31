@@ -18,7 +18,8 @@ export class AuthGuard implements CanActivate, CanLoad {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      return this.isAuthenticated('/login');
+      const authenticated = this.isAuthenticated('/login');
+      return authenticated;
   }
   canLoad(
     route: Route,
@@ -27,22 +28,19 @@ export class AuthGuard implements CanActivate, CanLoad {
   }
 
   async isAuthenticated(redirectUrl: string) {
-    return new Promise<boolean>((resolve, reject) => {
-      this.sessionQuery.loggedIn$
-        .subscribe(authenticated => {
-          if (authenticated) {
-            resolve(authenticated);
-          } else {
-            // Store attempted url for redirecting
-            this.toastService.redirectUrl = redirectUrl;
-            this.toastService.showError({
-              message: 'You need to log in first.'
-            });
-            // Navigate, with extras
-            this.router.navigate([redirectUrl]);
-            reject(false);
-          }
-        });
+    console.log("Session guard", this.sessionQuery.getValue());
+    const authenticated = !!this.sessionQuery.getValue().token;
+    if (authenticated) {
+      return true;
+    }
+
+    // Store attempted url for redirecting
+    this.toastService.redirectUrl = redirectUrl;
+    this.toastService.showError({
+      message: 'You need to log in first.'
     });
+    // // Navigate, with extras
+    this.router.navigate([redirectUrl]);
+    return false;
   }
 }

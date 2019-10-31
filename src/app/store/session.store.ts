@@ -3,7 +3,7 @@ import { Store, StoreConfig } from '@datorama/akita';
 
 export interface SessionState {
   id?: number;
-  token: string;
+  token?: string;
   username: string;
   lastName: string;
   firstName: string;
@@ -15,7 +15,6 @@ export interface SessionState {
 
 export function createInitialState(): SessionState {
   return {
-    token: '',
     username: '',
     firstName: '',
     lastName: '',

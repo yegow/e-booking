@@ -37,7 +37,7 @@ export class EditAccountPage implements OnInit {
 
   constructor(
     private sessionQuery: SessionQuery,
-    private navParams: NavParams
+    private navParams: NavParams,
   ) {
     this.userId = navParams.get('userId');
   }

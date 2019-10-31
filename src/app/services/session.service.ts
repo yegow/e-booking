@@ -51,6 +51,7 @@ export class SessionService {
           case 200:
             const {status, result} = resp.body as any;
             if (status === 'success') {
+              console.log("Loggin in user:", result);
               return this.sessionStore.update(result);
             }
 
