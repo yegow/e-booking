@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content>
-    <form class="ion-padding" [formGroup]="reviewForm" (ngSubmit)="confirm()">
+    <form class="ion-padding" [formGroup]="reviewForm">
       <ion-item>
         <ion-label position="floating">Rating</ion-label>
         <ion-input type="text" formControlName="rating"></ion-input>

@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./account-popover.component.scss'],
 })
 export class AccountPopoverComponent implements OnInit {
-  @Input() toggleEditModal: () => void;
+  @Input() showEditModal: () => void;
   constructor() { }
 
   ngOnInit() {}

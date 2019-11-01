@@ -8,7 +8,7 @@ const routes: Routes = [
         component: DashPage,
         children: [
             {
-                path: 'properties',
+                path: 'property-list',
                 children: [
                     {
                         path: '',
@@ -18,7 +18,7 @@ const routes: Routes = [
                 ]
             },
             {
-                path: 'properties/mines',
+                path: 'property-list/mines',
                 children: [
                     {
                         path: '',
@@ -39,7 +39,7 @@ const routes: Routes = [
             },
             {
                 path: '',
-                redirectTo: '/dash/properties',
+                redirectTo: '/dash/property-list',
                 pathMatch: 'full'
             }
         ]

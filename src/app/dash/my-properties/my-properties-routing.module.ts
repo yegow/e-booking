@@ -1,4 +1,4 @@
-import { Routes, RouterModule } from "@angular/router";
+import { Routes, RouterModule } from '@angular/router';
 import { MyPropertiesPage } from './my-properties.page';
 import { NgModule } from '@angular/core';
 
@@ -29,12 +29,12 @@ const routes: Routes = [
             },
             {
                 path: '',
-                redirectTo: '/dash/properties/mines/all',
+                redirectTo: '/dash/property-list/mines/all',
                 pathMatch: 'full'
             }
         ]
     }
-]
+];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],

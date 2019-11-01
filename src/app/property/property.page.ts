@@ -7,6 +7,7 @@ import { ReviewsQuery } from '../store/reviews.query';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { PostReviewPage } from './post-review/post-review.page';
+import { SessionQuery } from '../store/session.query';
 
 @Component({
   selector: 'app-property',
@@ -15,11 +16,13 @@ import { PostReviewPage } from './post-review/post-review.page';
 })
 export class PropertyPage implements OnInit {
   url = 'https://students.njoka.net/ebooking/assets/images/properties';
+  loggedUser: any = null;
   property: any = null;
   reviews: any[] = null;
 
   constructor(
     private propertiesQuery: PropertiesQuery,
+    private sessionQuery: SessionQuery,
     private reviewsQuery: ReviewsQuery,
     // private ordersService: OrdersService,
     private reviewsService: ReviewsService,
@@ -31,6 +34,8 @@ export class PropertyPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.loggedUser = !!this.sessionQuery.getValue().token;
+
     this.propertiesQuery.activeProperty$
       .subscribe(
         (property) => {

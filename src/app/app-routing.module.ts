@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
+import { RedirectAuthenticatedGuard } from './auth/redirect-authenticated.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -11,6 +12,8 @@ const routes: Routes = [
     path: 'properties',
     loadChildren: () => import('./properties/properties.module')
       .then(m => m.PropertiesPageModule),
+      canActivate: [RedirectAuthenticatedGuard],
+      canLoad: [RedirectAuthenticatedGuard]
   },
   {
     path: 'dash',

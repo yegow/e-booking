@@ -13,12 +13,12 @@ export class DashPage implements OnInit {
   pages = [
     {
       title: 'Properties',
-      url: '/dash/properties',
+      url: '/dash/property-list',
       icon: 'globe'
     },
     {
       title: 'My Properties',
-      url: '/dash/properties/mines',
+      url: '/dash/property-list/mines',
       icon: 'filing'
     },
     {

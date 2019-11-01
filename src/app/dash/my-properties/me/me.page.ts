@@ -13,7 +13,7 @@ export class MePage implements OnInit {
   properties: any[] = null;
 
   constructor(
-    private proeprtiesQuery: PropertiesQuery,
+    private propertiesQuery: PropertiesQuery,
     private propertiesService: PropertiesService,
     private sessionQuery: SessionQuery
   ) { }
@@ -24,7 +24,7 @@ export class MePage implements OnInit {
 
   ionViewWillEnter() {
     console.log('View My Properties entering');
-    this.proeprtiesQuery.properties$
+    this.propertiesQuery.properties$
       .subscribe(
         properties => {
           this.properties = properties;

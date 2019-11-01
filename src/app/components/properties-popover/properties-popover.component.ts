@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PropertiesQuery } from 'src/app/store/properties.query';
 
 @Component({
   selector: 'app-properties-popover',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PropertiesPopoverComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private propertiesQuery: PropertiesQuery
+  ) { }
 
   ngOnInit() {}
 

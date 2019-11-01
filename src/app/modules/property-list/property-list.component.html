@@ -1,7 +1,9 @@
 <ion-row *ngIf="properties">
   <ion-col size="12" *ngFor="let property of properties">
     <ion-card [routerLink]="['/properties', property.id]">
-        <ion-img [src]="url + '/' + property.image"></ion-img>
+        <ion-spinner *ngIf="!property.image.loaded" name="dots" slot="end"></ion-spinner>
+
+        <ion-img [src]="url + '/' + property.image" (ionImgDidLoad)="property.image.loaded = true;"></ion-img>
         <ion-card-header class="fullWidth">
           <ion-card-title>{{property.title}}</ion-card-title>
           <div class="priceHeader">

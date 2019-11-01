@@ -46,8 +46,8 @@ export class SignupPage implements OnInit {
     address: new FormControl(''),
     password: new FormControl('', [
       Validators.required,
-      Validators.minLength(8),
-      Validators.pattern(/[a-z]/i),
+      Validators.minLength(6),
+      Validators.pattern(/[a-z0-9#@.!]/i),
     ]),
     rememberMe: new FormControl('', [
       Validators.requiredTrue

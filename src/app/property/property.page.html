@@ -2,8 +2,8 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button
-        [text]=""
-        [icon]="arrowRoundBack">
+        text=""
+        icon="arrow-round-back">
       </ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="property">{{property.title}}</ion-title>
@@ -31,9 +31,8 @@
       </ion-item>
     </ion-card>
 
-    <ion-button color="primary" class="orderBtn">Order</ion-button>
-
     <div class="ion-padding-horizontal">
+      <ion-button *ngIf="loggedUser" color="primary" class="orderBtn" expand="block">Order</ion-button>
       <div class="ratingContainer">
         <ion-text color="primary">
           <ion-icon name="star"></ion-icon>
