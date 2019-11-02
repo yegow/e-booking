@@ -32,7 +32,13 @@
     </ion-card>
 
     <div class="ion-padding-horizontal">
-      <ion-button *ngIf="loggedUser" color="primary" class="orderBtn" expand="block">Order</ion-button>
+      <ion-button 
+        *ngIf="!!loggedUser.token" 
+        color="primary" 
+        class="orderBtn" 
+        expand="block"
+        (click)="showCheckoutModal()"
+      >Order</ion-button>
       <div class="ratingContainer">
         <ion-text color="primary">
           <ion-icon name="star"></ion-icon>
@@ -53,7 +59,7 @@
 
       <div class="reviewHeader">
         <h5 class="sectionHeader">Reviews</h5>
-        <ion-button size="small" color="success" (click)="showModal()">Add</ion-button>
+        <ion-button size="small" color="success" (click)="showReviewModal()">Add</ion-button>
       </div>
       <div class="reviewContainer">
         <ion-item *ngIf="!reviews">

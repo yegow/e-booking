@@ -1,5 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ReviewsService } from 'src/app/services/reviews.service';
+
+const reviewOpts = (form: FormGroup, returnFields: string[]) => {
+  const temp: any = {};
+  returnFields.forEach(f => {
+    temp[f] = form.get(f).value;
+  });
+
+  return temp;
+};
 
 @Component({
   selector: 'app-post-review',
@@ -9,11 +19,15 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class PostReviewPage implements OnInit {
   @Input() rating;
   @Input() comment;
+  @Input() userId;
+  @Input() propertyId;
 
   reviewForm;
   modal;
 
-  constructor() { }
+  constructor(
+    private reviewsService: ReviewsService
+  ) { }
 
   ngOnInit() {
     this.reviewForm = new FormGroup({
@@ -32,6 +46,18 @@ export class PostReviewPage implements OnInit {
 
   dismiss() {
     this.modal.dismiss();
+  }
+
+  postReview() {
+    const review = reviewOpts(
+      this.reviewForm,
+      ['comment', 'rating']
+    );
+
+    const { userId, propertyId } = this;
+    this.reviewsService.create({
+      userId, propertyId, ...review
+    }).subscribe();
   }
 
 }

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { PostReviewPage } from './post-review/post-review.page';
 import { SessionQuery } from '../store/session.query';
+import { CheckoutPage } from './checkout/checkout.page';
 
 @Component({
   selector: 'app-property',
@@ -34,7 +35,7 @@ export class PropertyPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.loggedUser = !!this.sessionQuery.getValue().token;
+    this.loggedUser = this.sessionQuery.getValue();
 
     this.propertiesQuery.activeProperty$
       .subscribe(
@@ -57,9 +58,26 @@ export class PropertyPage implements OnInit {
     //   });
   }
 
-  async showModal() {
+  async showReviewModal() {
     const modal = await this.modalController.create({
-      component: PostReviewPage
+      component: PostReviewPage,
+      componentProps: {
+        userId: this.loggedUser.id,
+        propertyId: this.property.id,
+      }
+    });
+
+    return await modal.present();
+  }
+
+  async showCheckoutModal() {
+    const modal = await this.modalController.create({
+      component: CheckoutPage,
+      componentProps: {
+        userId: this.loggedUser.id,
+        propertyId: this.property.id,
+        userEmail: this.loggedUser.email
+      }
     });
 
     return await modal.present();

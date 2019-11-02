@@ -22,7 +22,6 @@ export class ReviewsService {
     userId?: number,
     propertyId?: number
   }) {
-    console.log('Starting review fetch');
     return this.http.get(
       `${this.reviewsUrl}`,
       {
@@ -37,11 +36,30 @@ export class ReviewsService {
           if (body.status === 'success') {
             return this.reviewsStore.upsertMany(body.result);
           }
-          this.toastService.showError(resp.body.result);
+          this.toastService.showError({ message: resp.body.result });
         } else {
-          this.toastService.showError({
-            message: 'Something wen\'t wrong try again.'
-          });
+          this.toastService.showError({ message: 'Something wen\'t wrong, try again.' });
+        }
+      },
+      this.handleError.bind(this)
+    ));
+  }
+
+  create(review: ReviewsState) {
+    return this.http.post(
+      `${this.reviewsUrl}/${review.id}`,
+      review,
+      {observe: 'response'}
+    ).pipe(tap(
+      (resp: {body: any}) => {
+        const {body} = resp;
+        if (body) {
+          if (body.status === 'success') {
+            return this.reviewsStore.upsert(body.result.id, body.result);
+          }
+          this.toastService.showError({ message: resp.body.result });
+        } else {
+          this.toastService.showError({ message: 'Something wen\'t wrong try again.' });
         }
       },
       this.handleError.bind(this)
@@ -60,11 +78,9 @@ export class ReviewsService {
           if (body.status === 'success') {
             return this.reviewsStore.update(body.result.id, body.result);
           }
-          this.toastService.showError(resp.body.result);
+          this.toastService.showError({ message: resp.body.result });
         } else {
-          this.toastService.showError({
-            message: 'Something wen\'t wrong try again.'
-          });
+          this.toastService.showError({ message: 'Something wen\'t wrong try again.' });
         }
       },
       this.handleError.bind(this)
@@ -82,11 +98,9 @@ export class ReviewsService {
           if (body.status === 'success') {
             return this.reviewsStore.remove(body.result.id);
           }
-          this.toastService.showError(resp.body.result);
+          this.toastService.showError({ message: resp.body.result});
         } else {
-          this.toastService.showError({
-            message: 'Something wen\'t wrong try again.'
-          });
+          this.toastService.showError({ message: 'Something wen\'t wrong try again.' });
         }
       },
       this.handleError.bind(this)

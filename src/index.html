@@ -12,7 +12,6 @@
   <meta name="msapplication-tap-highlight" content="no" />
 
   <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
-  <script src="cordova.js"></script>
 
   <!-- add to homescreen for ios -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -21,6 +20,12 @@
 
 <body>
   <app-root></app-root>
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+    const stripe = Stripe('pk_test_lx1Waow5lgsLqWZfGakpklYO00rvf5kGYa');
+    const elements = stripe.elements();
+  </script>
 </body>
 
 </html>

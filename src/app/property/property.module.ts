@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { PropertyPage } from './property.page';
 import { PostReviewPageModule } from './post-review/post-review.module';
 import { PostReviewPage } from './post-review/post-review.page';
+import { CheckoutPageModule } from './checkout/checkout.module';
+import { CheckoutPage } from './checkout/checkout.page';
 
 const routes: Routes = [
   {
@@ -21,9 +23,10 @@ const routes: Routes = [
     ReactiveFormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    PostReviewPageModule
+    PostReviewPageModule,
+    CheckoutPageModule
   ],
   declarations: [PropertyPage],
-  entryComponents: [PostReviewPage]
+  entryComponents: [PostReviewPage, CheckoutPage]
 })
 export class PropertyPageModule {}
