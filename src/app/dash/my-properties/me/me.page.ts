@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { PropertiesQuery } from 'src/app/store/properties.query';
-import { PropertiesService } from 'src/app/services/properties.service';
 import { SessionQuery } from 'src/app/store/session.query';
+import { OrdersQuery } from 'src/app/store/orders.query';
+import { OrdersService } from 'src/app/services/orders.service';
 
 @Component({
   selector: 'app-me',
@@ -10,32 +10,32 @@ import { SessionQuery } from 'src/app/store/session.query';
   styleUrls: ['./me.page.scss'],
 })
 export class MePage implements OnInit {
-  properties: any[] = null;
+  orders: any[] = null;
 
   constructor(
-    private propertiesQuery: PropertiesQuery,
-    private propertiesService: PropertiesService,
+    private ordersService: OrdersService,
+    private ordersQuery: OrdersQuery,
     private sessionQuery: SessionQuery
   ) { }
 
   ngOnInit() {
-    this.fetchProperties();
+    this.fetchOrders()
+      .subscribe();
   }
 
   ionViewWillEnter() {
-    console.log('View My Properties entering');
-    this.propertiesQuery.properties$
+    this.ordersQuery.selectAll()
       .subscribe(
-        properties => {
-          this.properties = properties;
+        orders => {
+          console.log('Orders coming in', orders);
+          this.orders = orders;
         },
       );
   }
 
-  fetchProperties() {
-    this.propertiesService.fetchProperties({
-      userId: this.sessionQuery.getValue().id,
-      active: null
+  fetchOrders() {
+    return this.ordersService.fetchAll({
+      userId: this.sessionQuery.getValue().id
     });
   }
 

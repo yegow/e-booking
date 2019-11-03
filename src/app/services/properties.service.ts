@@ -4,13 +4,13 @@ import { tap } from 'rxjs/operators';
 
 import { PropertiesStore, PropertiesState } from '../store/properties.store';
 import { ToastService } from './toast.service';
-import {url, apiEnd } from './config';
+import { server } from './config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PropertiesService {
-  propertiesUrl = url + apiEnd + '/properties.php';
+  propertiesUrl = `${server.url + server.apiEnd}/properties${server.ext}`;
 
   constructor(
     private http: HttpClient,
@@ -29,7 +29,6 @@ export class PropertiesService {
       }
     ).pipe(tap(
       (resp: {body: any}) => {
-        console.log(resp.body);
         if (resp.body.status === 'success') {
           // return this.propertiesStore.set(resp.body.result);
           return this.propertiesStore.upsertMany(resp.body.result);

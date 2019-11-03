@@ -1,23 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 
 import { OrdersStore, OrdersState } from '../store/orders.store';
 import { SessionQuery } from '../store/session.query';
 import { ToastService } from './toast.service';
-import {url, apiEnd } from './config';
+import { server } from './config';
+import { PropertiesStore } from '../store/properties.store';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdersService {
-  ordersUrl = url + apiEnd + '/orders';
+  ordersUrl = `${server.url + server.apiEnd}/orders${server.ext}`;
 
   constructor(
     private http: HttpClient,
     private toastService: ToastService,
     private ordersStore: OrdersStore,
-    private sessionQuery: SessionQuery
+    private sessionQuery: SessionQuery,
+    private propertiesStore: PropertiesStore
   ) { }
 
   fetchAll(opts: {
@@ -48,23 +50,32 @@ export class OrdersService {
     ));
   }
 
-  async order(propertyId: number) {
-    const userId = this.sessionQuery.getValue().id;
+  create(opts: {
+    propertyId: string,
+    stripeToken: string,
+    propertyPrice: number,
+    lastFour: string,
+    email: string,
+    propertyTitle: string
+  }) {
+    const { id: userId, token } = this.sessionQuery.getValue();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
     return this.http.post(
       `${this.ordersUrl}`,
-      {propertyId, userId},
-      {observe: 'response'}
+      {...opts, userId},
+      {observe: 'response', headers}
     ).pipe(tap(
       resp => {
-        console.log('Received response');
         if (resp.status === 201) {
           const {result} = resp.body as any;
           this.ordersStore.add(result);
-          this.toastService.showSuccess({
-            message: 'Item added to cart.'
-          });
+          this.propertiesStore.remove(opts.propertyId);
         } else {
-          this.toastService.showError({
+          console.log('Big error', resp);
+          return this.toastService.showError({
             message: 'Something went wrong, let\'s try that again.'
           });
         }

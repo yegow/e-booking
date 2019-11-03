@@ -6,4 +6,5 @@ export interface Property {
   type: string;
   location: string;
   image: string;
+  status?: string;
 }

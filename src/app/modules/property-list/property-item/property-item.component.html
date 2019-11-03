@@ -1,0 +1,26 @@
+<ion-col size="12" class="fullWidth">
+  <ion-card [routerLink]="['/properties', property.id]">
+    <ion-spinner *ngIf="!loadedOrError" name="dots" slot="end"></ion-spinner>
+
+    <ion-img 
+      src="assets/e-booking-placeholder.png" 
+      (ionImgDidLoad)="hideSpinner()"
+      (ionError)="hideSpinner"></ion-img>
+    <ion-card-header>
+      <ion-card-title>{{property.title}}</ion-card-title>
+      <div class="priceHeader">
+        <span class="price">KES {{property.price.toLocaleString()}}</span> &nbsp;
+        <span>{{property.category}}</span>
+      </div>
+      <ion-card-subtitle>
+        <ion-item lines="none" class="sub">
+          <span class="loc">
+            <ion-icon name="pin"></ion-icon>
+            {{property.location}}
+          </span>
+          <ion-badge slot="end">{{property.type}}</ion-badge>
+        </ion-item>
+      </ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+</ion-col>

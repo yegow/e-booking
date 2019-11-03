@@ -74,9 +74,8 @@ export class PropertyPage implements OnInit {
     const modal = await this.modalController.create({
       component: CheckoutPage,
       componentProps: {
-        userId: this.loggedUser.id,
-        propertyId: this.property.id,
-        userEmail: this.loggedUser.email
+        user: this.loggedUser,
+        property: this.property,
       }
     });
 

@@ -4,13 +4,13 @@ import { tap } from 'rxjs/operators';
 
 import { SessionStore, SessionState } from '../store/session.store';
 import { ToastService } from './toast.service';
-import { apiEnd, url } from './config';
+import { server } from './config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
-  usersUrl = url + apiEnd + '/auth';
+  usersUrl = server.url + server.apiEnd + '/auth';
 
   constructor(
     private sessionStore: SessionStore,
@@ -20,7 +20,7 @@ export class SessionService {
 
   signUp(user: SessionState) {
     return this.http.post(
-      `${this.usersUrl}/signup.php`,
+      `${this.usersUrl}/signup${server.ext}`,
       user,
       {observe: 'response'}
     ).pipe(tap(
@@ -39,7 +39,7 @@ export class SessionService {
 
   login(user?: {username: string, password: string}) {
     return this.http.post(
-      `${this.usersUrl}/login.php`,
+      `${this.usersUrl}/login${server.ext}`,
       {...user},
       {observe: 'response'}
     ).pipe(tap(

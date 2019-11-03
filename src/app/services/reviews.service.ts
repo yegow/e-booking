@@ -4,13 +4,13 @@ import { tap } from 'rxjs/operators';
 
 import { ReviewsStore, ReviewsState } from '../store/reviews.store';
 import { ToastService } from './toast.service';
-import {url, apiEnd } from './config';
+import { server } from './config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReviewsService {
-  reviewsUrl = url + apiEnd + '/reviews';
+  reviewsUrl = `${server.url + server.apiEnd}/reviews${server.ext}`;
 
   constructor(
     private http: HttpClient,
