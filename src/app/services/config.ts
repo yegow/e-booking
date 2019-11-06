@@ -1,19 +1,23 @@
 import { environment as devConfig } from '../../environments/environment';
-// import { environment as prodConfig } from '../../environments/environment.prod';
+import { environment as prodConfig } from '../../environments/environment.prod';
 
-const server: {
+let server: {
     url: string;
     apiEnd: string;
     ext: string;
 } = {
     ...devConfig.server,
-    ext: ''
+    ext: '',
 };
 
-// server = {
-//   ...prodConfig.server,
-//   ext: '.php'
-// };
+const PROD = false;
+
+if (PROD) {
+  server = {
+    ...prodConfig.server,
+    ext: '.php'
+  };
+}
 
 export {
     server

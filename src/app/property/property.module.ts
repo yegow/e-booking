@@ -24,7 +24,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     PostReviewPageModule,
-    CheckoutPageModule
+    CheckoutPageModule,
   ],
   declarations: [PropertyPage],
   entryComponents: [PostReviewPage, CheckoutPage]

@@ -21,7 +21,23 @@
   </div>
   <div *ngIf="property">
     <ion-card class="card">
-      <ion-img class="image" src="assets/e-booking-placeholder.png"></ion-img>
+      <ion-slides pager="true" [options]="slideOpts">
+        <ion-slide>
+          <ion-img class="image" [src]="'https://students.njoka.net/ebooking/assets/images/properties/' + property.image"></ion-img>
+        </ion-slide>
+        <ion-slide *ngIf="property.image1">
+          <ion-img class="image" [src]="'https://students.njoka.net/ebooking/assets/images/properties/' + property.image1"></ion-img>
+        </ion-slide>
+        <ion-slide *ngIf="property.image2">
+          <ion-img class="image" [src]="'https://students.njoka.net/ebooking/assets/images/properties/' + property.image2"></ion-img>
+        </ion-slide>
+        <ion-slide *ngIf="property.image3">
+          <ion-img class="image" [src]="'https://students.njoka.net/ebooking/assets/images/properties/' + property.image3"></ion-img>
+        </ion-slide>
+        <ion-slide *ngIf="property.image4">
+          <ion-img class="image" [src]="'https://students.njoka.net/ebooking/assets/images/properties/' + property.image4"></ion-img>
+        </ion-slide>
+      </ion-slides>
       <ion-item lines="none" class="sub">
         <span class="loc">
           <ion-icon name="pin"></ion-icon>
