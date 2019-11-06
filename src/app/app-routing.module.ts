@@ -26,6 +26,7 @@ const routes: Routes = [
     path: 'properties/:id', loadChildren: () => import('./property/property.module')
       .then(m => m.PropertyPageModule)
   },
+  { path: '**', redirectTo: 'home', pathMatch: 'full' },
 
 ];
 

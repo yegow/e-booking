@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 import { SessionQuery } from 'src/app/store/session.query';
 import { OrdersQuery } from 'src/app/store/orders.query';
-import { OrdersService } from 'src/app/services/orders.service';
+import { PostReviewPage } from './post-review/post-review.page';
 
 @Component({
   selector: 'app-me',
@@ -10,33 +11,37 @@ import { OrdersService } from 'src/app/services/orders.service';
   styleUrls: ['./me.page.scss'],
 })
 export class MePage implements OnInit {
+  loggedUser = this.sessionQuery.getValue();
   orders: any[] = null;
 
   constructor(
-    private ordersService: OrdersService,
     private ordersQuery: OrdersQuery,
-    private sessionQuery: SessionQuery
+    private sessionQuery: SessionQuery,
+    private modalController: ModalController,
   ) { }
 
   ngOnInit() {
-    this.fetchOrders()
-      .subscribe();
   }
 
   ionViewWillEnter() {
     this.ordersQuery.selectAll()
       .subscribe(
         orders => {
-          console.log('Orders coming in', orders);
           this.orders = orders;
         },
       );
   }
 
-  fetchOrders() {
-    return this.ordersService.fetchAll({
-      userId: this.sessionQuery.getValue().id
+  async showReviewModal(propertyId) {
+    const modal = await this.modalController.create({
+      component: PostReviewPage,
+      componentProps: {
+        userId: this.loggedUser.id,
+        propertyId,
+      }
     });
+
+    return await modal.present();
   }
 
 }

@@ -4,6 +4,7 @@ import { ModalController, PopoverController } from '@ionic/angular';
 import { SessionQuery } from 'src/app/store/session.query';
 import { EditAccountPage } from '../edit-account/edit-account.page';
 import { AccountPopoverComponent } from 'src/app/components/account-popover/account-popover.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-account',
@@ -12,6 +13,7 @@ import { AccountPopoverComponent } from 'src/app/components/account-popover/acco
 })
 export class AccountPage implements OnInit {
   loggedUser: any = null;
+  loggedUserSubscription: Subscription;
 
   constructor(
     private sessionQuery: SessionQuery,
@@ -23,12 +25,17 @@ export class AccountPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.sessionQuery.user$
+    this.loggedUserSubscription = this.sessionQuery.loggedUser$
       .subscribe(
         user => {
           this.loggedUser = user;
         }
       );
+  }
+
+  ionViewWillLeave() {
+    console.log('Unsubscribing');
+    this.loggedUserSubscription.unsubscribe();
   }
 
   async showEditModal() {

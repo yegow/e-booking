@@ -13,25 +13,29 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="orders && orders.length" class="ion-padding">
+  <div *ngIf="orders && orders.length">
     <article *ngFor="let order of orders" class="eProperty">
       <img src="assets/home.png" class="eImage">
       <div class="eDetails">
         <span class="header">
           <ion-label class="title">{{order.property.title}}</ion-label>
+          <ion-button size="small" color="success" (click)="showReviewModal()">
+            <ion-icon name="add-circle-outline"></ion-icon>
+            Review
+          </ion-button>
         </span>
         <div class="traits">
           <article>
-            <ion-icon name="cash"></ion-icon>
-            KES.{{order.price}}
+            <ion-icon name="cash" color="success"></ion-icon>
+             KES.{{order.price}}
           </article>
           <article>
-            <ion-icon name="card"></ion-icon>
-            **** {{order.card}}
+            <ion-icon name="card" color="medium"></ion-icon>
+             **** {{order.card}}
           </article>
           <article>
-            <ion-icon name="pin"></ion-icon>
-            {{order.property.location}}
+            <ion-icon name="pin" color="danger"></ion-icon>
+             {{order.property.location}}
           </article>
         </div>
       </div>

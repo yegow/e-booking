@@ -11,7 +11,8 @@ export class PropertyItemComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   hideSpinner() {
     this.loadedOrError = true;

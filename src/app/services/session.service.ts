@@ -15,7 +15,7 @@ export class SessionService {
   constructor(
     private sessionStore: SessionStore,
     private http: HttpClient,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) { }
 
   signUp(user: SessionState) {
@@ -26,7 +26,8 @@ export class SessionService {
     ).pipe(tap(
       (resp: {body: any}) => {
         if (resp.body.status === 'success') {
-          return this.sessionStore.update(resp.body.result);
+          const { result } = resp.body;
+          return this.sessionStore.login(result);
         }
 
         this.toastService.showError({
@@ -53,7 +54,7 @@ export class SessionService {
           case 200:
             const {status, result} = resp.body as any;
             if (status === 'success') {
-              return this.sessionStore.update(result);
+              return this.sessionStore.login(result);
             }
 
             this.toastService.showError({
@@ -66,6 +67,10 @@ export class SessionService {
       },
       this.handleError.bind(this)
     ));
+  }
+
+  logout() {
+    this.sessionStore.logout();
   }
 
   // Error handle

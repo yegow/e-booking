@@ -22,12 +22,25 @@ export function createInitialState(): SessionState {
   };
 }
 
+export function createSession(user: SessionState) {
+  return { ...user };
+}
+
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'session' })
 export class SessionStore extends Store<SessionState> {
 
   constructor() {
     super(createInitialState());
+  }
+
+  login(data: SessionState) {
+    const user = createSession(data);
+    this.update({ ...user });
+  }
+
+  logout() {
+      this.update(createInitialState());
   }
 
 }

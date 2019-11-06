@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { SessionQuery } from '../store/session.query';
+import { take, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,21 +15,19 @@ export class RedirectAuthenticatedGuard implements CanActivate, CanLoad {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.isAuthenticated('/dash');
+    return this.sessionQuery.isLoggedIn$.pipe(
+      take(1),
+      switchMap((isLoggedIn) => {
+        if (isLoggedIn) {
+          this.router.navigate(['/dash']);
+        }
+        return of(!isLoggedIn);
+      })
+    );
   }
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
-    return true;
-  }
-  isAuthenticated(redirectUrl: string) {
-    console.log('Redirect guard called');
-    const authenticated = !!this.sessionQuery.getValue().token;
-    if (authenticated) {
-      this.router.navigate([redirectUrl]);
-      return false;
-    }
-
     return true;
   }
 }

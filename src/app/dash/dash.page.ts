@@ -3,6 +3,7 @@ import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 import { PropertiesService } from '../services/properties.service';
+import { SessionStore } from '../store/session.store';
 
 @Component({
   selector: 'app-dash',
@@ -31,7 +32,8 @@ export class DashPage implements OnInit {
   constructor(
     private router: Router,
     private menuController: MenuController,
-    private propertiesService: PropertiesService
+    private propertiesService: PropertiesService,
+    private sessionStore: SessionStore,
     ) { }
 
   ngOnInit() {
@@ -47,6 +49,7 @@ export class DashPage implements OnInit {
   // }
 
   logout() {
+    this.sessionStore.logout();
     this.router.navigate(['/home']);
   }
 
