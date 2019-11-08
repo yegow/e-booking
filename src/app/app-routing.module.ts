@@ -20,7 +20,7 @@ const routes: Routes = [
     loadChildren: () => import('./dash/dash.module')
       .then(m => m.DashPageModule),
     canActivate: [AuthGuard],
-    // canLoad: [] // Implement later.
+    canLoad: [AuthGuard] // Implement later.
   },
   {
     path: 'properties/:id', loadChildren: () => import('./property/property.module')

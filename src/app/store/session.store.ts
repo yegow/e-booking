@@ -13,12 +13,17 @@ export interface SessionState {
   role?: string;
 }
 
-export function createInitialState(): SessionState {
+export function createInitialState(): SessionState | null {
   return {
+    id: null,
     username: '',
     firstName: '',
     lastName: '',
-    email: ''
+    email: '',
+    token: '',
+    mobile: '',
+    address: '',
+    role: '',
   };
 }
 

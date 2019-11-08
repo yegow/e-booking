@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Review } from './review.model';
-import { EntityState, ActiveState, EntityStore, StoreConfig } from '@datorama/akita';
+import { EntityState, EntityStore, StoreConfig } from '@datorama/akita';
 
-export interface ReviewsState extends EntityState<Review>, ActiveState {
-  active: null;
+export interface ReviewsState extends EntityState<Review> {
 }
 
 @Injectable({ providedIn: 'root' })

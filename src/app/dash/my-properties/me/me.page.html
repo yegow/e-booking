@@ -19,10 +19,11 @@
       <div class="eDetails">
         <span class="header">
           <ion-label class="title">{{order.property.title}}</ion-label>
-          <ion-button size="small" color="success" (click)="showReviewModal()">
-            <ion-icon name="add-circle-outline"></ion-icon>
-            Review
-          </ion-button>
+          <app-review-button
+            [userId]="loggedUser.id"
+            [propertyId]="order.property.id"
+            [actions]="actions"
+            ></app-review-button>
         </span>
         <div class="traits">
           <article>

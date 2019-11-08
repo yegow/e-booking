@@ -4,6 +4,9 @@ import { ModalController } from '@ionic/angular';
 import { SessionQuery } from 'src/app/store/session.query';
 import { OrdersQuery } from 'src/app/store/orders.query';
 import { PostReviewPage } from './post-review/post-review.page';
+import { ReviewsService } from 'src/app/services/reviews.service';
+import { ReviewsState } from 'src/app/store/reviews.store';
+import { ReviewsQuery } from 'src/app/store/reviews.query';
 
 @Component({
   selector: 'app-me',
@@ -18,9 +21,12 @@ export class MePage implements OnInit {
     private ordersQuery: OrdersQuery,
     private sessionQuery: SessionQuery,
     private modalController: ModalController,
+    private reviewsService: ReviewsService,
+    private reviewsQuery: ReviewsQuery,
   ) { }
 
   ngOnInit() {
+    this.reviewsService.fetchAll({ userId: this.loggedUser.id }).subscribe();
   }
 
   ionViewWillEnter() {
@@ -32,16 +38,49 @@ export class MePage implements OnInit {
       );
   }
 
-  async showReviewModal(propertyId) {
+  async showReviewModal(opts: {
+    propertyId?: number,
+    review?: ReviewsState,
+    done?: () => void,
+  }) {
+    let modalProps: { [key: string]: any } = {};
+
+    if (opts.propertyId) {
+      modalProps = {
+        propertyId: opts.propertyId,
+        userId: this.loggedUser.id,
+      };
+    } else {
+      modalProps.review = { ...opts.review };
+    }
+
     const modal = await this.modalController.create({
       component: PostReviewPage,
       componentProps: {
-        userId: this.loggedUser.id,
-        propertyId,
-      }
+        ...modalProps,
+        done: opts.done,
+      },
     });
 
     return await modal.present();
+  }
+
+  get actions() {
+    const self = this;
+    return {
+      showNewReviewModal(
+        propertyId: number,
+        done: () => void,
+      ) {
+        self.showReviewModal({ propertyId, done });
+      },
+      showEditReviewModal(
+        review: ReviewsState,
+        done: () => void,
+      ) {
+        self.showReviewModal({ review, done });
+      }
+    };
   }
 
 }

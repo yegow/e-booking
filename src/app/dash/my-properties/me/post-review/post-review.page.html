@@ -1,6 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>post-review</ion-title>
+    <ion-title>
+      {{ isNew ? 'Add new' : 'Edit' }} review
+    </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismiss()">
         <ion-icon name="close"></ion-icon>
@@ -10,18 +12,26 @@
 </ion-header>
 
 <ion-content>
-    <form class="ion-padding" [formGroup]="reviewForm">
-      <ion-item>
-        <ion-label position="floating">Rating</ion-label>
-        <ion-input type="text" formControlName="rating"></ion-input>
-      </ion-item>
+    <form class="ion-padding" [formGroup]="reviewForm" (ngSubmit)="postReview($event)">
+      <div>
+        <ion-item>
+          <ion-label position="floating">Rating</ion-label>
+          <ion-input type="number" formControlName="rating" inputmode="number"></ion-input>
+        </ion-item>
+        <ion-text class="eRating" color="primary">
+          <ion-icon *ngFor="let r of ratings" name="star"></ion-icon>
+        </ion-text>
+      </div>
       <ion-item>
         <ion-label position="floating">Comment</ion-label>
         <ion-textarea formControlName="comment"></ion-textarea>
       </ion-item>
   
-      <ion-button expand="block" [disabled]="!reviewForm.valid" type="submit">
-        Post
+      <ion-button
+        expand="block"
+        [disabled]="(!reviewForm.valid && reviewForm.dirty) || loading" type="submit">
+        <span *ngIf="!loading">Submit</span>
+        <ion-spinner *ngIf="loading" name="dots" ng></ion-spinner>
       </ion-button>
     </form>
 </ion-content>

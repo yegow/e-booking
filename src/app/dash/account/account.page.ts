@@ -28,13 +28,13 @@ export class AccountPage implements OnInit {
     this.loggedUserSubscription = this.sessionQuery.loggedUser$
       .subscribe(
         user => {
+          console.log('The user', user);
           this.loggedUser = user;
         }
       );
   }
 
   ionViewWillLeave() {
-    console.log('Unsubscribing');
     this.loggedUserSubscription.unsubscribe();
   }
 
