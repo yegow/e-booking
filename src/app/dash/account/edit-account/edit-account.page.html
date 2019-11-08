@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <form class="ion-padding" [formGroup]="editForm" (ngSubmit)="confirm()">
+  <form class="ion-padding" [formGroup]="profileForm" (ngSubmit)="confirm()">
     <ion-item>
       <ion-label position="floating">First name</ion-label>
       <ion-input type="text" formControlName="firstName"></ion-input>
@@ -32,8 +32,9 @@
       <ion-input type="text" formControlName="address"></ion-input>
     </ion-item>
 
-    <ion-button expand="block" [disabled]="!editForm.valid" type="submit">
-      Confirm
+    <ion-button expand="block" [disabled]="!editForm.valid || loading" type="submit">
+      <span *ngIf="!loading">Submit</span>
+      <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
     </ion-button>
   </form>
 </ion-content>
