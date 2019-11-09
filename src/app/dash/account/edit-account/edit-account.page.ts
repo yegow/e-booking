@@ -1,5 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { SessionService } from 'src/app/services/session.service';
+import { ToastService } from 'src/app/services/toast.service';
+
+const profileOpts = (form: FormGroup, returnFields: string[]) => {
+  const temp: any = {};
+  returnFields.forEach(f => {
+    temp[f] = form.get(f).value;
+  });
+
+  return temp;
+};
 
 @Component({
   selector: 'app-edit-account',
@@ -13,16 +24,20 @@ export class EditAccountPage implements OnInit {
   @Input() lastName;
   @Input() mobile;
   @Input() address;
+
+  loading = false;
   modal;
+  profileForm = null;
 
-  editForm = null;
-
-  constructor() {
+  constructor(
+    private sessionService: SessionService,
+    private toastService: ToastService,
+  ) {
 
   }
 
   ngOnInit() {
-    this.editForm = new FormGroup({
+    this.profileForm = new FormGroup({
       firstName: new FormControl(this.firstName, [
         Validators.required,
         Validators.minLength(2),
@@ -49,6 +64,31 @@ export class EditAccountPage implements OnInit {
     this.modal.dismiss();
   }
 
-  confirm() {}
+  update(e: Event) {
+    this.loading = true;
+    e.preventDefault();
+    const profile = profileOpts(
+      this.profileForm,
+      ['firstName', 'lastName', 'username', 'mobile', 'address'],
+    );
+
+    this.sessionService.update({
+      ...profile,
+      id: this.userId,
+    }).subscribe(
+      () => {
+        this.loading = false;
+        this.toastService.showSuccess({
+          message: 'All set 👍🏽',
+        });
+        setTimeout(() => {
+          this.dismiss();
+        }, 2000);
+      },
+      () => {
+        this.loading = false;
+      }
+    );
+  }
 
 }
