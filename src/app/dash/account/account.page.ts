@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, PopoverController } from '@ionic/angular';
 
 import { SessionQuery } from 'src/app/store/session.query';
-import { EditAccountPage } from '../edit-account/edit-account.page';
+import { EditAccountPage } from './edit-account/edit-account.page';
 import { AccountPopoverComponent } from 'src/app/components/account-popover/account-popover.component';
 import { Subscription } from 'rxjs';
 
@@ -28,6 +28,7 @@ export class AccountPage implements OnInit {
     this.loggedUserSubscription = this.sessionQuery.loggedUser$
       .subscribe(
         user => {
+          console.log('User changed', user);
           this.loggedUser = user;
         }
       );
