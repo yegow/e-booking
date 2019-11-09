@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 
 import { ReviewsStore, ReviewsState } from '../store/reviews.store';
 import { ToastService } from './toast.service';
 import { server } from './config';
+import { SessionQuery } from '../store/session.query';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReviewsService {
   reviewsUrl = `${server.url + server.apiEnd}/reviews${server.ext}`;
+  userToken = this.sessionQuery.getValue().token;
 
   constructor(
     private http: HttpClient,
     private reviewsStore: ReviewsStore,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private sessionQuery: SessionQuery,
   ) { }
 
   fetchAll(opts: {
@@ -35,9 +38,6 @@ export class ReviewsService {
           if (body.status === 'success') {
             return this.reviewsStore.upsertMany(body.result);
           }
-          this.toastService.showError({ message: resp.body.result });
-        } else {
-          this.toastService.showError({ message: 'Something wen\'t wrong, try again.' });
         }
       },
       this.handleError.bind(this)
@@ -45,10 +45,14 @@ export class ReviewsService {
   }
 
   create(review: ReviewsState) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.userToken}`,
+    });
+
     return this.http.post(
-      `${this.reviewsUrl}/${review.id}`,
+      this.reviewsUrl,
       review,
-      {observe: 'response'}
+      { observe: 'response', headers }
     ).pipe(tap(
       (resp: {body: any}) => {
         const {body} = resp;
@@ -66,16 +70,25 @@ export class ReviewsService {
   }
 
   update(review: ReviewsState) {
+    console.log(this.userToken);
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.userToken}`,
+    });
+
     return this.http.put(
       `${this.reviewsUrl}/${review.id}`,
       review,
-      {observe: 'response'}
+      { observe: 'response', headers }
     ).pipe(tap(
       (resp: {body: any}) => {
         const {body} = resp;
         if (body) {
           if (body.status === 'success') {
-            return this.reviewsStore.update(body.result.id, body.result);
+            console.log('Response res', body.result);
+            return this.reviewsStore.update(
+              review.id,
+              body.result,
+            );
           }
           this.toastService.showError({ message: resp.body.result });
         } else {
@@ -109,12 +122,14 @@ export class ReviewsService {
   // Error handleError
   handleError(err: any) {
     // {status: number, ok: boolean} = err
-    if (err.status === 0) {
+    if (!err.ok) {
       this.toastService.showError({
-        message: 'Please try again later ⏱️.'
+        message: 'Can\'t complete request at the moment.'
+         + 'Please try again later ⏱️.'
       });
     }
     console.log('Full error object', err);
+    throw err;
   }
 
 }

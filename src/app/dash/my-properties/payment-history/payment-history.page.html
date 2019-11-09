@@ -19,10 +19,10 @@
                 <ion-text color="primary">#{{order.id}}</ion-text>
               </ion-label>
 
-              <ion-label>
+              <span>
                 <ion-icon name="clock"></ion-icon>
-                {{order.createdAt}}
-              </ion-label>
+                {{ moment(order.createdAt).fromNow() }}
+              </span>
             </header>
             <div>
               <span class="title">Status </span>

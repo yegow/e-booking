@@ -10,6 +10,7 @@ import { PropertyListModule } from 'src/app/modules/property-list/property-list.
 import { FilterButtonModule } from 'src/app/modules/filter-button/filter-button.module';
 import { PostReviewPageModule } from './post-review/post-review.module';
 import { PostReviewPage } from './post-review/post-review.page';
+import { ReviewButtonComponent } from './review-button/review-button.component';
 
 const routes: Routes = [
   {
@@ -28,7 +29,7 @@ const routes: Routes = [
     FilterButtonModule,
     PostReviewPageModule,
   ],
-  declarations: [MePage],
+  declarations: [MePage, ReviewButtonComponent],
   entryComponents: [PostReviewPage]
 })
 export class MePageModule {}
