@@ -33,7 +33,6 @@ export class ReviewsService {
       }
     ).pipe(tap(
       (resp: {body: any}) => {
-        console.log('Fetched reviews', resp);
         const {body} = resp;
         if (body) {
           if (body.status === 'success') {
