@@ -1,0 +1,10 @@
+<ion-button *ngIf="!review" size="small" color="success"
+  (click)="showNewModal()">
+  <ion-icon name="add-circle-outline"></ion-icon>
+  Review
+</ion-button>
+
+<ion-button *ngIf="review" fill="outline" size="small" color="primary"
+  (click)="showEditModal()">
+  <ion-icon *ngFor="let r of rating" name="star"></ion-icon>
+</ion-button>

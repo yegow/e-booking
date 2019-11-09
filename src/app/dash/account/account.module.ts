@@ -7,8 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { AccountPage } from './account.page';
 import { AccountPopoverComponent } from 'src/app/components/account-popover/account-popover.component';
-import { EditAccountPageModule } from '../edit-account/edit-account.module';
-import { EditAccountPage } from '../edit-account/edit-account.page';
+import { EditAccountPageModule } from './edit-account/edit-account.module';
+import { EditAccountPage } from './edit-account/edit-account.page';
 
 const routes: Routes = [
   {
