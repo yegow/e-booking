@@ -12,7 +12,6 @@ import { SessionQuery } from '../store/session.query';
 })
 export class SessionService {
   usersUrl = server.url + server.apiEnd + '/auth';
-  userToken = this.sessionQuery.getValue().token;
 
   constructor(
     private sessionStore: SessionStore,
@@ -20,6 +19,8 @@ export class SessionService {
     private toastService: ToastService,
     private sessionQuery: SessionQuery,
   ) { }
+
+
 
   signUp(user: SessionState) {
     return this.http.post(
@@ -63,13 +64,14 @@ export class SessionService {
   }
 
   update(user: SessionState) {
+    const userToken = this.sessionQuery.getValue().token;
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.userToken}`
+      Authorization: `Bearer ${userToken}`
     });
 
     return this.http.put(
       `${this.usersUrl + server.ext}/${user.id}`,
-      {...user},
+      { ...user, userId: user.id },
       {observe: 'response', headers }
     ).pipe(tap(
       (resp: HttpResponse<any>) => {
@@ -78,13 +80,18 @@ export class SessionService {
           if (body.status === 'success') {
             return this.sessionStore.login(body.result);
           }
-          this.toastService.showError({ message: resp.body.result });
+          // this.toastService.showError({ message: resp.body.result });
+          throw new Error(body.result);
         } else {
           this.toastService.showError({ message: 'Something wen\'t wrong, try again.' });
         }
       },
       this.handleError.bind(this)
     ));
+  }
+
+  getUser() {
+    return this.sessionQuery.getValue();
   }
 
   logout() {

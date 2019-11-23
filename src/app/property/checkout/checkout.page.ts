@@ -101,7 +101,7 @@ export class CheckoutPage implements OnInit, OnDestroy {
         err => {
           this.dismiss();
           this.toastService.showError({
-            message: 'Something went wrong, try again later.'
+            message: err.message,
           });
         }
       );

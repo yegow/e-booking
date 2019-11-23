@@ -31,23 +31,17 @@ export class ReviewButtonComponent implements OnInit, OnDestroy {
     this.reviewsSubscription = this.reviewQuery.selectAll({
       filterBy: [
         review => {
-<<<<<<< HEAD
-=======
           console.log('In filter query', review);
->>>>>>> ffda53fedeb00b4b758552a733b22371a9e742d8
           return review.user.id === this.userId;
         },
         review => review.property.id === this.propertyId,
       ]
     }).subscribe(
       ([fReview]) => {
-<<<<<<< HEAD
-=======
         console.log('Review changed', fReview);
->>>>>>> ffda53fedeb00b4b758552a733b22371a9e742d8
         if (fReview) {
           this.review = fReview;
-          this.rating = Array(fReview.rating).fill(0);
+          this.rating = Array(+fReview.rating).fill(0);
         }
       },
     );

@@ -11,12 +11,18 @@
 
 <ion-content>
     <div *ngIf="orders && orders.length">
-        <article *ngFor="let order of orders" class="eOrder">
+        <article *ngFor="let order of orders" class="eOrder"
+          [class.init-border]="order.status === 'initiated'"
+          [class.deliv-border]="order.status === 'paid'">
           <div class="eDetails">
             <header>
               <ion-label class="title">
                 Order 
-                <ion-text color="primary">#{{order.id}}</ion-text>
+                <span 
+                  [class.init-text]="order.status === 'initiated'"
+                  [class.deliv-text]="order.status === 'paid'">
+                  #{{order.chargeId.substring(0, 9) + '...'}}
+                </span>
               </ion-label>
 
               <span>
@@ -25,8 +31,15 @@
               </span>
             </header>
             <div>
-              <span class="title">Status </span>
-              <ion-badge color="primary">{{order.status}}</ion-badge>
+              <article>
+                <ion-icon name="card" color="medium"></ion-icon>
+                **** {{order.card}}
+              </article>
+              <ion-badge class="eBadge"
+                [class.init-bg]="order.status === 'initiated'"
+                [class.deliv-bg]="order.status === 'paid'">
+                {{order.status}}
+              </ion-badge>
             </div>
           </div>
         </article>

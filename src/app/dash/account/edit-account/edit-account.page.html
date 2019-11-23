@@ -5,12 +5,15 @@
         <ion-icon name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Edit your details</ion-title>
+    <ion-title>
+      {{ isForPassword ? 'Change password' : 'Edit your details'}}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form class="ion-padding" [formGroup]="profileForm" (ngSubmit)="confirm()">
+  <form class="ion-padding" *ngIf="!isForPassword"
+    [formGroup]="profileForm" (ngSubmit)="update($event)">
     <ion-item>
       <ion-label position="floating">First name</ion-label>
       <ion-input type="text" formControlName="firstName"></ion-input>
@@ -32,7 +35,31 @@
       <ion-input type="text" formControlName="address"></ion-input>
     </ion-item>
 
-    <ion-button expand="block" [disabled]="!editForm.valid || loading" type="submit">
+    <ion-button expand="block" 
+      [disabled]="(!profileForm.valid && profileForm.dirty) || (!profileForm.dirty)|| loading"
+      type="submit">
+      <span *ngIf="!loading">Submit</span>
+      <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+    </ion-button>
+  </form>
+
+  <form class="ion-padding" *ngIf="isForPassword" 
+    [formGroup]="passwordForm" (ngSubmit)="update($event)">
+    <ion-item>
+      <ion-label position="floating">Current</ion-label>
+      <ion-input type="password" formControlName="currentPassword"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">New</ion-label>
+      <ion-input type="password" formControlName="newPassword"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Confirm</ion-label>
+      <ion-input type="password" formControlName="confirmPassword"></ion-input>
+    </ion-item>
+    <ion-button expand="block" 
+      [disabled]="(!passwordForm.valid && passwordForm.dirty) || (!passwordForm.dirty)|| loading"
+      type="submit">
       <span *ngIf="!loading">Submit</span>
       <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
     </ion-button>

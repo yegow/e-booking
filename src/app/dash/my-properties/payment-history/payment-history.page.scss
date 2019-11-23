@@ -1,19 +1,38 @@
 .eOrder {
+  $init-color: var(--ion-color-warning-tint);
+  $deliv-color: var(--ion-color-success-tint);
+
   padding: .25em;
   margin: .3em;
   -webkit-box-shadow: 0px 3px 7px 0px rgba(0,0,0,0.92); 
   box-shadow: 0px 3px 7px 0px rgba(0,0,0,0.92);
   border-radius: .3em;
+
+  &.init-border {
+    border-left: .45em solid $init-color;
+  }
+  &.deliv-border {
+    border-left: .45em solid $deliv-color;
+  }
   
   .eDetails {
     padding: .5em 1.5em;
     display: flex;
     flex-direction: column;
-
+    
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      span {
+        &.init-text {
+          color: $init-color;
+        }
+        &.deliv-text {
+          color: $deliv-color;
+        }
+      }
     }
 
     .title {
@@ -29,6 +48,16 @@
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
+
+      .eBadge {
+        &.init-bg {
+          background-color: $init-color;
+          color: var(--ion-color-dark);
+        }
+        &.deliv-bg {
+          background-color: $deliv-color;
+        }
+      }
     }
   }
 }

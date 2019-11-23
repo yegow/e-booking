@@ -12,6 +12,7 @@ const userOpts = (form: FormGroup, returnFields: string[]) => {
 
   return temp;
 };
+const passReg = /(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
 
 @Component({
   selector: 'app-signup',
@@ -23,12 +24,12 @@ export class SignupPage implements OnInit {
     firstName: new FormControl('', [
       Validators.required,
       Validators.minLength(2),
-      Validators.pattern(/[a-z]/i),
+      Validators.pattern(/^[a-z]+$/i),
     ]),
     lastName: new FormControl('', [
       Validators.required,
       Validators.minLength(2),
-      Validators.pattern(/[a-z]/i),
+      Validators.pattern(/^[a-z]+$/i),
     ]),
     email: new FormControl('', [
       Validators.email,
@@ -41,15 +42,15 @@ export class SignupPage implements OnInit {
     ]),
     mobile: new FormControl('', [
       Validators.minLength(10),
-      // Validators.pattern(/^(+254|0)7\d{8}/),
+      Validators.pattern(/^(0|\+254)7\d{8}$/),
     ]),
     address: new FormControl(''),
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(6),
-      Validators.pattern(/[a-z0-9#@.!]/i),
+      Validators.pattern(passReg),
     ]),
-    rememberMe: new FormControl('', [
+    agreeToTerms: new FormControl('', [
       Validators.requiredTrue
     ]),
   });

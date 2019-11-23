@@ -2,13 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PropertiesQuery } from '../store/properties.query';
 // import { OrdersService } from '../services/orders.service';
-// import { ReviewsService } from '../services/reviews.service';
-// import { ReviewsQuery } from '../store/reviews.query';
+import { ReviewsService } from '../services/reviews.service';
+import { ReviewsQuery } from '../store/reviews.query';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { SessionQuery } from '../store/session.query';
 import { CheckoutPage } from './checkout/checkout.page';
 import { Subscription } from 'rxjs';
+import { server } from '../services/config';
 
 @Component({
   selector: 'app-property',
@@ -16,7 +17,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./property.page.scss'],
 })
 export class PropertyPage implements OnInit, OnDestroy {
-  url = 'https://students.njoka.net/ebooking/assets/images/properties';
+  url = server.url + '/ebooking/assets/images/properties';
+  ratings: any[];
   loggedUser: any = null;
   property: any = null;
   reviews: any[] = null;
@@ -25,9 +27,9 @@ export class PropertyPage implements OnInit, OnDestroy {
   constructor(
     private propertiesQuery: PropertiesQuery,
     private sessionQuery: SessionQuery,
-    // private reviewsQuery: ReviewsQuery,
+    private reviewsQuery: ReviewsQuery,
     // private ordersService: OrdersService,
-    // private reviewsService: ReviewsService,
+    private reviewsService: ReviewsService,
     private router: Router,
     private modalController: ModalController
   ) { }
@@ -43,17 +45,18 @@ export class PropertyPage implements OnInit, OnDestroy {
           }
           this.property = property;
           if (this.property && this.property.id) {
-            // this.reviewsService.fetchAll({
-            //   propertyId: this.property.id
-            // }).subscribe();
+            this.reviewsService.fetchAll({
+              propertyId: this.property.id
+            }).subscribe();
+            this.ratings = Array(+this.property.rating).fill(0);
           }
         }
       );
 
-    // this.reviewsQuery.selectAll({filterBy: e => e.propertyId === this.property.id})
-    //   .subscribe(entities => {
-    //     this.reviews = entities;
-    //   });
+    this.reviewsQuery.selectAll({filterBy: e => e.propertyId === this.property.id})
+      .subscribe(entities => {
+        this.reviews = entities;
+      });
   }
 
   ionViewWillEnter() {

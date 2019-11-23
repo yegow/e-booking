@@ -34,7 +34,7 @@ export class ToastService {
   }) {
     this.showToast({
       color: 'success',
-      header: '👍',
+      header: 'Nice!',
       ...opts
     });
   }

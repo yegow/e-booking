@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Property } from './property.model';
+import { Property, VISIBILITY_FILTER } from './property.model';
 import { EntityState, ActiveState, EntityStore, StoreConfig } from '@datorama/akita';
 
 export interface PropertiesState extends EntityState<Property>, ActiveState {
-  userId?: number; // flag for various filtering
-  active: null;
+  ui: {
+    filter: VISIBILITY_FILTER,
+  };
 }
 
 @Injectable({ providedIn: 'root' })
@@ -12,7 +13,11 @@ export interface PropertiesState extends EntityState<Property>, ActiveState {
 export class PropertiesStore extends EntityStore<PropertiesState> {
 
   constructor() {
-    super();
+    super({
+      ui: {
+        filter: VISIBILITY_FILTER.SHOW_ALL,
+      }
+    });
   }
 
 }

@@ -28,20 +28,22 @@ export class AccountPage implements OnInit {
     this.loggedUserSubscription = this.sessionQuery.loggedUser$
       .subscribe(
         user => {
+          console.log('changing user', user);
           this.loggedUser = user;
         }
       );
   }
 
-  ionViewWillLeave() {
-    this.loggedUserSubscription.unsubscribe();
-  }
+  // ionViewWillLeave() {
+  //   this.loggedUserSubscription.unsubscribe();
+  // }
 
-  async showEditModal() {
+  async showEditModal(isForPassword?: boolean) {
     const modal = await this.modalController.create({
       component: EditAccountPage,
       componentProps: {
-        ...this.loggedUser
+        ...this.loggedUser,
+        isForPassword,
       },
     });
 
@@ -58,7 +60,9 @@ export class AccountPage implements OnInit {
       component: AccountPopoverComponent,
       event: ev,
       componentProps: {
-        showEditModal: this.showEditModal.bind(this)
+        showEditModal: (forPassword: boolean) => {
+          this.showEditModal(forPassword);
+        }
       }
       // translucent: true
     });

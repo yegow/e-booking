@@ -17,6 +17,7 @@ export class PropertiesPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('ngOnInit called');
     this.propertiesService.fetchProperties().subscribe();
   }
 

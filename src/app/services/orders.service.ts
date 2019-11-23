@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 
 import { OrdersStore, OrdersState } from '../store/orders.store';
@@ -7,6 +7,7 @@ import { SessionQuery } from '../store/session.query';
 import { ToastService } from './toast.service';
 import { server } from './config';
 import { PropertiesStore } from '../store/properties.store';
+import { MyPropertiesStore } from '../store/my-properties.store';
 
 @Injectable({
   providedIn: 'root'
@@ -19,16 +20,43 @@ export class OrdersService {
     private toastService: ToastService,
     private ordersStore: OrdersStore,
     private sessionQuery: SessionQuery,
-    private propertiesStore: PropertiesStore
+    private propertiesStore: PropertiesStore,
+    private myPropertiesStore: MyPropertiesStore,
   ) { }
+
+  fetchMyProperties({ userId }) {
+    const myPropsUrl = `${server.url + server.apiEnd}/myproperties.php`;
+    return this.http.get(
+      myPropsUrl,
+      {
+        observe: 'response',
+        params: { userId }
+      }
+    ).pipe(tap(
+      (resp: HttpResponse<any>) => {
+        if (resp.status === 200) {
+          const {status, result} = resp.body as any;
+          if (status === 'success') {
+            return this.myPropertiesStore.set(result);
+          }
+
+          this.toastService.showError(result);
+        } else {
+          throw new Error(resp.body.result);
+        }
+      },
+      this.handleError.bind(this)
+    ));
+  }
 
   fetchAll(opts: {
     userId?: number,
     propertyId?: number,
     sort?: string
   }) {
+    const url = `${server.url + server.apiEnd}/transactions.php`;
     return this.http.get(
-      `${this.ordersUrl}`,
+      `${url}`,
       {
         observe: 'response',
         params: {...opts as any}
@@ -37,6 +65,7 @@ export class OrdersService {
       resp => {
         if (resp.status === 200) {
           const {status, result} = resp.body as any;
+          console.log('Fetched orders', resp);
           if (status === 'success') {
             return this.ordersStore.set(result);
           }
@@ -56,28 +85,24 @@ export class OrdersService {
     propertyPrice: number,
     lastFour: string,
     email: string,
-    propertyTitle: string
+    propertyTitle: string,
   }) {
     const { id: userId, token } = this.sessionQuery.getValue();
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     });
-
     return this.http.post(
       `${this.ordersUrl}`,
       {...opts, userId},
       {observe: 'response', headers}
     ).pipe(tap(
-      resp => {
+      (resp: HttpResponse<any>) => {
         if (resp.status === 201) {
           const {result} = resp.body as any;
           this.ordersStore.add(result);
           this.propertiesStore.remove(opts.propertyId);
         } else {
-          console.log('Big error', resp);
-          return this.toastService.showError({
-            message: 'Something went wrong, let\'s try that again.'
-          });
+          throw new Error(resp.body.result);
         }
       },
       this.handleError

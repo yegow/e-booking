@@ -45,7 +45,8 @@ export class SessionStore extends Store<SessionState> {
   }
 
   logout() {
-      this.update(createInitialState());
+    console.log('Logout was called****');
+    this.update(createInitialState());
   }
 
 }

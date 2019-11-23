@@ -8,7 +8,6 @@ import { Property } from 'src/app/schemas/property';
 })
 export class PropertyListComponent implements OnInit {
   @Input() properties: Property[];
-  url = 'https://students.njoka.net/ebooking/assets/images/properties';
   constructor() { }
 
   ngOnInit() {

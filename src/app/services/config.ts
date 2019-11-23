@@ -10,7 +10,7 @@ let server: {
     ext: '',
 };
 
-const PROD = false;
+const PROD = true;
 
 if (PROD) {
   server = {

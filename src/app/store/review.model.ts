@@ -1,8 +1,6 @@
 export class Review {
     userId?: number;
     propertyId?: number;
-    user?: any;
-    property?: any;
     comment: string;
     property?: any;
     user?: any;

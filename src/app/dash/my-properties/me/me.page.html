@@ -13,31 +13,34 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="orders && orders.length">
-    <article *ngFor="let order of orders" class="eProperty">
-      <img src="assets/home.png" class="eImage">
+  <div *ngIf="properties && properties.length">
+    <article *ngFor="let property of properties" class="eProperty">
+      <div class="eImage">
+        <img [src]="imagesUrl + property.image">
+        <app-review-button
+          [userId]="loggedUser.id"
+          [propertyId]="property.id"
+          [actions]="actions">
+        </app-review-button>
+      </div>
       <div class="eDetails">
         <span class="header">
-          <ion-label class="title">{{order.property.title}}</ion-label>
-          <app-review-button
-            [userId]="loggedUser.id"
-            [propertyId]="order.property.id"
-            [actions]="actions"
-            ></app-review-button>
+          <ion-label class="title">{{property.title}}</ion-label>
         </span>
-        <div class="traits">
+        <div>
           <article>
-            <ion-icon name="cash" color="success"></ion-icon>
-             KES.{{order.price}}
-          </article>
-          <article>
-            <ion-icon name="card" color="medium"></ion-icon>
-             **** {{order.card}}
+            <ion-badge>{{property.category.name}}</ion-badge>
           </article>
           <article>
             <ion-icon name="pin" color="danger"></ion-icon>
-             {{order.property.location}}
+             {{property.location}}
           </article>
+          <div>
+            <ion-button color="danger" size="small" expand="block"
+              (click)="presentVacateConfirm(property.id)">
+              Leave
+            </ion-button>
+          </div>
         </div>
       </div>
     </article>

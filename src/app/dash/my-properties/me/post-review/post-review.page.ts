@@ -26,7 +26,7 @@ export class PostReviewPage implements OnInit {
 
   reviewForm: FormGroup;
   modal;
-  isNew: boolean;
+  isNew = true;
   loading = false;
 
   constructor(
@@ -35,14 +35,11 @@ export class PostReviewPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('Review page init with', this.review);
     let rating, comment;
     if (this.review) {
       rating = this.review.rating;
       comment = this.review.comment;
       this.isNew = !this.review;
-    } else {
-      this.isNew = false;
     }
 
     this.reviewForm = new FormGroup({
@@ -74,19 +71,21 @@ export class PostReviewPage implements OnInit {
     let userId;
     let propertyId;
     let action;
+    let id;
     if (this.isNew) {
       userId = this.userId;
       propertyId = this.propertyId;
       action = 'create';
     } else {
+      console.log(this.review);
       userId = this.review.user.id;
       propertyId = this.review.property.id;
+      id = this.review.id;
       action = 'update';
     }
 
     this.reviewsService[action]({
-      userId, propertyId, ...review,
-      id: this.review.id,
+      userId, propertyId, id, ...review,
     }).subscribe(
       () => {
         this.loading = false;

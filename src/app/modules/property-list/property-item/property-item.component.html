@@ -3,7 +3,7 @@
     <ion-spinner *ngIf="!loadedOrError" name="dots" slot="end"></ion-spinner>
 
     <ion-img 
-      src="assets/e-booking-placeholder.png" 
+      [src]="imagesUrl + property.image" 
       (ionImgDidLoad)="hideSpinner()"
       (ionError)="hideSpinner"></ion-img>
     <ion-card-header>

@@ -11,11 +11,16 @@
   .eImage {
     width: 6em;
     height: auto;
+
+    img {
+      width: 100%;
+    }
   }
   .eDetails {
     padding: 2px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 
     span {
       display: flex;
@@ -29,14 +34,29 @@
     }
 
     div {
-      border-top: .4px solid #d7d8da;
       display: grid;
-      grid-template-columns: auto auto;
+      grid-template-areas: 
+      'a1 a2'
+      'b b';
 
       article {
         display: flex;
         align-items: center;
-        margin-top: 3px;
+        margin-bottom: .4em;
+
+        &:first-child {
+          grid-area: a1;
+        }
+        &:last-child {
+          grid-area: a2;
+        }
+      }
+
+      div {
+        border-top: .4px solid var(--ion-color-medium-shade);
+        display: flex;
+        justify-content: flex-end;
+        grid-area: b;
       }
     }
   }

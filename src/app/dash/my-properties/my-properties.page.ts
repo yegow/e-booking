@@ -16,13 +16,12 @@ export class MyPropertiesPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.fetchOrders()
-      .subscribe();
+    this.fetchOrders();
   }
 
   fetchOrders() {
     return this.ordersService.fetchAll({
       userId: this.sessionQuery.getValue().id
-    });
+    }).subscribe();
   }
 }

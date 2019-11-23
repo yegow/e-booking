@@ -14,4 +14,4 @@ import { PropertiesPopoverComponent } from 'src/app/components/properties-popove
   entryComponents: [PropertiesPopoverComponent],
   exports: [FilterButtonComponent]
 })
-export class FilterButtonModule { }
+export class FilterButtonModule {}

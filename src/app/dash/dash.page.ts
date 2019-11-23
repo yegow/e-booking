@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { PropertiesService } from '../services/properties.service';
 import { SessionStore } from '../store/session.store';
+import { VISIBILITY_FILTER } from '../store/property.model';
 
 @Component({
   selector: 'app-dash',
@@ -38,8 +39,10 @@ export class DashPage implements OnInit {
 
   ngOnInit() {
     this.propertiesService.fetchProperties({
-      filter: 'ALL',
-      active: null
+      ui: {
+        filter: VISIBILITY_FILTER.SHOW_ALL,
+      },
+      active: null,
     }).subscribe();
     this.menuController.enable(true, 'sideMenu');
   }

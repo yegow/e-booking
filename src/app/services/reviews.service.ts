@@ -11,7 +11,7 @@ import { SessionQuery } from '../store/session.query';
   providedIn: 'root'
 })
 export class ReviewsService {
-  reviewsUrl = `${server.url + server.apiEnd}/reviews${server.ext}`;
+  reviewsUrl = `${server.url + server.apiEnd}/reviews`;
   userToken = this.sessionQuery.getValue().token;
 
   constructor(
@@ -26,7 +26,7 @@ export class ReviewsService {
     propertyId?: number
   }) {
     return this.http.get(
-      `${this.reviewsUrl}`,
+      `${this.reviewsUrl}/all.php`,
       {
         observe: 'response',
         params: {...opts as any}
@@ -48,9 +48,9 @@ export class ReviewsService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.userToken}`,
     });
-
+    console.log('Sending review', review);
     return this.http.post(
-      this.reviewsUrl,
+      `${this.reviewsUrl}/new.php`,
       review,
       { observe: 'response', headers }
     ).pipe(tap(
@@ -58,6 +58,7 @@ export class ReviewsService {
         const {body} = resp;
         if (body) {
           if (body.status === 'success') {
+            console.log('Review posted', body.result);
             return this.reviewsStore.upsert(body.result.id, body.result);
           }
           this.toastService.showError({ message: resp.body.result });
@@ -70,7 +71,6 @@ export class ReviewsService {
   }
 
   update(review: ReviewsState) {
-    console.log(this.userToken);
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.userToken}`,
     });

@@ -1,12 +1,18 @@
 <ion-list>
-  <ion-list-header>
-    <ion-label>Show only for:</ion-label>
-  </ion-list-header>
-  <ion-item button>
+  <ion-item button (click)="showAll()">
+    <ion-label>All</ion-label>
+    <ion-icon slot="end" name="planet"></ion-icon>
+  </ion-item>
+  <ion-item-divider>
+    <ion-label>
+      Show only for
+    </ion-label>
+  </ion-item-divider>
+  <ion-item button (click)="showRental()">
     <ion-label>Rent</ion-label>
     <ion-icon slot="end" name="calendar"></ion-icon>
   </ion-item>
-  <ion-item button>
+  <ion-item button (click)="showForSale()">
     <ion-label>Sale</ion-label>
     <ion-icon slot="end" name="cash"></ion-icon>
   </ion-item>
