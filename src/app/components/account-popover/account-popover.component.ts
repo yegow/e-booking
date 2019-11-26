@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class AccountPopoverComponent implements OnInit {
   @Input() showEditModal: () => void;
+  @Input() showPasswordEditModal: () => void;
   constructor() { }
 
   ngOnInit() {}

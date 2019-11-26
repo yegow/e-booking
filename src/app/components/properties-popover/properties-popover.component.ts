@@ -7,11 +7,11 @@ import { PropertiesQuery } from 'src/app/store/properties.query';
   styleUrls: ['./properties-popover.component.scss'],
 })
 export class PropertiesPopoverComponent implements OnInit {
-  @Input() setPropertiesFilter: () => void;
+  @Input() showAll: () => void;
+  @Input() showForRental: () => void;
+  @Input() showForSale: () => void;
 
-  constructor(
-    private propertiesQuery: PropertiesQuery
-  ) { }
+  constructor() { }
 
   ngOnInit() {}
 

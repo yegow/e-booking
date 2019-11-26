@@ -60,8 +60,11 @@ export class AccountPage implements OnInit {
       component: AccountPopoverComponent,
       event: ev,
       componentProps: {
-        showEditModal: (forPassword: boolean) => {
-          this.showEditModal(forPassword);
+        showEditModal: () => {
+          this.showEditModal(false);
+        },
+        showPasswordEditModal: () => {
+          this.showEditModal(true);
         }
       }
       // translucent: true

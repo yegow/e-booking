@@ -3,7 +3,6 @@ import { PopoverController } from '@ionic/angular';
 
 import { PropertiesPopoverComponent } from 'src/app/components/properties-popover/properties-popover.component';
 import { PropertiesService } from 'src/app/services/properties.service';
-import { VISIBILITY_FILTER } from 'src/app/store/property.model';
 
 @Component({
   selector: 'app-filter-button',
@@ -25,7 +24,7 @@ export class FilterButtonComponent implements OnInit {
       componentProps: {
         showAll: this.showAll,
         showForSale: this.showForSale,
-        showRental: this.showRental,
+        showForRental: this.showRental,
       }
       // translucent: true
     });

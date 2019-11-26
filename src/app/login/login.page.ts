@@ -10,6 +10,7 @@ import { SessionService } from '../services/session.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  loading = false;
   loginForm = new FormGroup({
     username: new FormControl('', [
       Validators.required,
@@ -31,12 +32,14 @@ export class LoginPage implements OnInit {
   }
 
   login() {
+    this.loading = true;
     this.sessionService.login({
         username: this.loginForm.get('username').value,
         password: this.loginForm.get('password').value
       })
       .subscribe(
         resp => {
+          this.loading = false;
           const {body} = resp as any;
           if (body && body.status === 'success') {
             return this.router.navigate(['/dash']);

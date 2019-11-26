@@ -53,14 +53,26 @@ export class PropertyPage implements OnInit, OnDestroy {
         }
       );
 
+    this.fetchReviews();
+  }
+
+  ionViewWillEnter() {
+    this.reviewsService.fetchAll({
+      propertyId: this.property.id,
+    }).subscribe(
+      (res) => {
+        const { body: { result }} = res;
+        console.log(result);
+        this.reviews = result;
+      }
+    );
+  }
+
+  fetchReviews() {
     this.reviewsQuery.selectAll({filterBy: e => e.propertyId === this.property.id})
       .subscribe(entities => {
         this.reviews = entities;
       });
-  }
-
-  ionViewWillEnter() {
-
   }
 
   async showCheckoutModal() {
@@ -81,6 +93,24 @@ export class PropertyPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.propertiesSubscription.unsubscribe();
+  }
+
+  get avgRating() {
+    if (!this.reviews.length) {
+      return [];
+    }
+    const ratings = this.reviews.map(r => r.rating);
+    console.log('Ratings count', ratings, ratings);
+    const total = ratings.reduce((acc, v) => acc += v, 0);
+    return Array(Math.round(total / ratings.length)).fill(0);
+  }
+
+  getRatingArray(n) {
+    const temp = [];
+    for (let i = 0; i < n; i++) {
+      temp.push(4);
+    }
+    return temp;
   }
 
 }

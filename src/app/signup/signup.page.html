@@ -49,8 +49,9 @@
       </ion-label>
     </ion-item>
 
-    <ion-button expand="block" [disabled]="!signUpForm.valid" type="submit">
-      Sign up
+    <ion-button expand="block" [disabled]="!signUpForm.valid || loading" type="submit">
+      <span *ngIf="!loading">Sign up</span>
+      <ion-spinner name="dots" *ngIf="loading"></ion-spinner>
     </ion-button>
   </form>
 </ion-content>

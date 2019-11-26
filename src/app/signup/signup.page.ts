@@ -20,6 +20,7 @@ const passReg = /(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).
   styleUrls: ['./signup.page.scss'],
 })
 export class SignupPage implements OnInit {
+  loading = false;
   signUpForm = new FormGroup({
     firstName: new FormControl('', [
       Validators.required,
@@ -64,6 +65,7 @@ export class SignupPage implements OnInit {
   }
 
   signUp() {
+    this.loading = true;
     const user = userOpts(
       this.signUpForm,
       ['firstName', 'lastName', 'email', 'username', 'mobile', 'address', 'password']
@@ -71,6 +73,7 @@ export class SignupPage implements OnInit {
 
     this.sessionService.signUp(user).subscribe(
       res => {
+        this.loading = true;
         if (res.body.status === 'success') {
           return this.router.navigate(['/dash']);
         }

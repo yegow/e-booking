@@ -29,8 +29,9 @@
       <ion-checkbox slot="start"></ion-checkbox>
     </ion-item>
   
-    <ion-button expand="block" [disabled]="!loginForm.valid" type="submit">
-      Log in
+    <ion-button expand="block" [disabled]="!loginForm.valid || loading" type="submit">
+      <span *ngIf="!loading">Login</span>
+      <ion-spinner name="dots" *ngIf="loading"></ion-spinner>
     </ion-button>
   </form>
 </ion-content>
