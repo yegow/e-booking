@@ -101,7 +101,8 @@ export class PropertyPage implements OnInit, OnDestroy {
     }
     const ratings = this.reviews.map(r => r.rating);
     console.log('Ratings count', ratings, ratings);
-    const total = ratings.reduce((acc, v) => acc += v, 0);
+    const total = ratings.reduce((acc, v) => acc += +v, 0);
+    console.log('Total', total, ratings.length);
     return Array(Math.round(total / ratings.length)).fill(0);
   }
 
@@ -110,6 +111,7 @@ export class PropertyPage implements OnInit, OnDestroy {
     for (let i = 0; i < n; i++) {
       temp.push(4);
     }
+
     return temp;
   }
 

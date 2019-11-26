@@ -36,6 +36,7 @@ export class ReviewsService {
         const {body} = resp;
         if (body) {
           if (body.status === 'success') {
+            this.reviewsStore
             return this.reviewsStore.upsertMany(body.result);
           }
         }
